@@ -1,6 +1,7 @@
 const Category = require('../models/category-model')
 const { validationResult } = require('express-validator')
 const _ = require('lodash')
+const Company = require('../models/company-model')
 const categoryCltr = {}
 
 categoryCltr.create = async (req, res) => {
@@ -8,10 +9,11 @@ categoryCltr.create = async (req, res) => {
    if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() })
    }
-   const body = _.pick(req.body, ['name'])
+   const body = req.body
    const catergory = new Category(body)
    try {
       await catergory.save()
+      await Company.findOneAndUpdate({categories:catergory.companyId})
       res.json(catergory)
    } catch (e) {
       res.status(500).json(e)
