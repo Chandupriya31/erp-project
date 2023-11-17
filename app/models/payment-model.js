@@ -7,6 +7,7 @@ const paymentSchema = new Schema({
         enum:['Credit','Debit'],
         default:'Debit'
     },
+    transactionId: String,
     amount:Number,
     quotationId:{
         type:Schema.Types.ObjectId,
