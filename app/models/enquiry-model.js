@@ -1,23 +1,23 @@
 const mongoose = require('mongoose')
-const {Schema,model} = mongoose
+const { Schema, model } = mongoose
 
 const enquirySchema = new Schema({
-    productId:{
+    productId: {
         type: Schema.Types.ObjectId,
         ref: 'Product'
     },
-    phNo:Number,
+    phNo: Number,
     customerId: {
         type: Schema.Types.ObjectId,
-        ref:'User'
+        ref: 'User'
     },
-    company:{
-        type:Schema.Types.ObjectId,
+    company: {
+        type: Schema.Types.ObjectId,
         ref: 'Company'
     },
-    quantity:Number,
-    date:Date
+    quantity: Number,
+    date: Date
 })
 
-const Enquiry = model('Enquiry',enquirySchema)
+const Enquiry = model('Enquiry', enquirySchema)
 module.exports = Enquiry
