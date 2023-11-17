@@ -12,10 +12,9 @@ const orderSchema = new Schema({
    },
    paymentStatus: {
       type: String,
-      enum: ['pending', 'completed', '50% paid'],
+      enum: ['pending', 'completed'],
       default: 'pending'
    },
-   balancePayment: Number,
    orderAcceptance: {
       type: Boolean,
       default: false

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const {Schema,model} = mongoose
+const { Schema, model } = mongoose
 
 const quotationSchema = new Schema({
    enquiry: {
@@ -19,12 +19,12 @@ const quotationSchema = new Schema({
       title: {
          type: String
       },
-       userId: {
+      userId: {
          type: Schema.Types.ObjectId,
          ref: 'User'
       }
    }]
 }, { timestamps: true })
- 
+
 const Quotation = model('Quotation', quotationSchema)
 module.exports = Quotation

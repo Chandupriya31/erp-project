@@ -12,14 +12,6 @@ const orderValidation = {
          errorMessage: 'payment status shouldnot be empty'
       }
    },
-   balancePayment: {
-      notEmpty: {
-         errorMessage: 'balance payment required'
-      },
-      isNumeric: {
-         errorMessage: 'should be in number'
-      }
-   },
    orderAcceptance: {
       notEmpty: {
          errorMessage: 'order status required'
