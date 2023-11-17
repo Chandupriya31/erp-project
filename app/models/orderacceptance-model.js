@@ -25,6 +25,10 @@ const orderSchema = new Schema({
       default: 'pending'
    },
    deliveryDate: Date,
+   quality: {
+      type: String,
+      enum: ['accecpt', 'reject']
+   },
    process: {
       statusofProduct: String,
       description: String,

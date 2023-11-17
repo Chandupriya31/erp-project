@@ -12,6 +12,11 @@ const orderValidation = {
          errorMessage: 'payment status shouldnot be empty'
       }
    },
+   quality: {
+      notEmpty: {
+         errorMessage: "provide quality status"
+      }
+   },
    orderAcceptance: {
       notEmpty: {
          errorMessage: 'order status required'
@@ -20,6 +25,12 @@ const orderValidation = {
    delivery: {
       notEmpty: {
          errorMessage: "delivery should not be empty"
+      }
+   },
+   deliveryDate: {
+      isDate: {
+         errorMessage: 'Date should be in valid format',
+         format: 'YYYY-MM-DD'
       }
    },
 

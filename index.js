@@ -9,16 +9,20 @@ const userCtlr = require('./app/controllers/users-ctlr')
 const multer = require('multer')
 configDB()
 const { checkSchema } = require('express-validator')
+//helpers
 const { userRegisterSchema, companyRegisterSchema, loginValidationSchema } = require('./app/helpers/userValidationSchema')
-const authenticateUser = require('./app/middlewares/authenticate')
+const quotationValidationSchema = require('./app/helpers/quotationValidationSchema')
 const categoryValidationSchema = require('./app/helpers/categoryValidation')
+const enquiryValidationSchema = require('./app/helpers/enquiryValidationSchema')
+const productValidation = require('./app/helpers/productValidation')
+const authenticateUser = require('./app/middlewares/authenticate')
+const orderValidation = require('./app/helpers/orderAcceptanceValidation')
+//controllers
 const categoryCltr = require('./app/controllers/category-ctlr')
 const productCltr = require('./app/controllers/product-ctlr')
-const productValidation = require('./app/helpers/productValidation')
 const enquiryCtlr = require('./app/controllers/enquiry-ctlr')
-const enquiryValidationSchema = require('./app/helpers/enquiryValidationSchema')
 const quotationCtlr = require('./app/controllers/quotation-ctlr')
-const quotationValidationSchema = require('./app/helpers/quotationValidationSchema')
+const orderAcceptanceCtlr = require('./app/controllers/orderAcceptance-ctlr')
 const upload = multer()
 
 const port = process.env.PORT || 3030
@@ -49,6 +53,9 @@ app.get('/api/enquiries/list', enquiryCtlr.list)
 app.post('/api/quotation/create', authenticateUser, checkSchema(quotationValidationSchema), quotationCtlr.create)
 app.get('/api/quotations/list', authenticateUser, quotationCtlr.list)
 
+//order-acceptance
+app.post('/api/orders/create', orderAcceptanceCtlr.create)
+app.get('/api/orders/list', orderAcceptanceCtlr.list)
 app.listen(port, () => {
     console.log('connected to port', port)
 })
