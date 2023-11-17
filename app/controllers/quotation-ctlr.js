@@ -1,4 +1,5 @@
 const Quotation = require('../models/quotation-model')
+const _ = require('lodash')
 const {validationResult} = require('express-validator')
 
 const quotationCtlr = {}
@@ -8,10 +9,10 @@ quotationCtlr.create = async(req,res)=>{
     if(!errors.isEmpty()){
         return res.status(500).json({errors:errors.array()})
     }
-    const body = req.body
-    const quotation = new Quotation(body)
-    quotation.date = new Date()
     try{
+        const body = req.body
+        const quotation = new Quotation(body)
+        quotation.date = new Date()
         await quotation.save()
         res.json(quotation)
     }catch(e){

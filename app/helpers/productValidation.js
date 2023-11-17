@@ -38,7 +38,7 @@ const productValidation = {
    },
    paymentTerms: {
       notEmpty: {
-         errorMessage: 'mention payment terms '
+         errorMessage: 'mention payment terms'
       }
    }
 }
