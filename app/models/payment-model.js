@@ -9,7 +9,7 @@ const paymentSchema = new Schema({
     },
     transactionId: String,
     amount:Number,
-    quotationId:{
+    quotation:{
         type:Schema.Types.ObjectId,
         ref:'Quotation'
     },
