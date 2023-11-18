@@ -105,7 +105,35 @@ const contactAddress = {
         errorMessage:'Company address can\'t be empty'
     }
 }
+const visionSchema = {
+    notEmpty:{
+        errorMessage:'company vision can\'t be empty'
+    },
+    isLength:{
+        options:{min:50,max:100},
+        errorMessage:'company vision should be b/w 50-100 chars'
+    }
+}
 
+const missionSchema = {
+    notEmpty:{
+        errorMessage:'company mission can\'t be empty'
+    },
+    isLength:{
+        options:{min:50,max:100},
+        errorMessage:'company mission should be b/w 50-100 chars'
+    }
+}
+
+const aboutSchema = {
+    notEmpty:{
+        errorMessage:'About company can\'t be empty'
+    },
+    isLength:{
+        options:{min:50,max:200},
+        errorMessage:'About company should be b/w 50-200 chars'
+    }
+}
 const userRegisterSchema = {
     username:nameSchema,
     email: emailSchema,
@@ -132,7 +160,10 @@ const companyRegisterSchema = {
     GST:gstSchema,
     'contactdetails.address':contactAddress,
     'contactdetails.email':contactEmail,
-    'contactdetails.phone':contact
+    'contactdetails.phone':contact,
+    'details.vision':visionSchema,
+    'details.mission':missionSchema,
+    'details.aboutus':aboutSchema
 }
 
 module.exports = {
