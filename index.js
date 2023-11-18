@@ -9,6 +9,8 @@ const userCtlr = require('./app/controllers/users-ctlr')
 const multer = require('multer')
 configDB()
 const { checkSchema } = require('express-validator')
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+
 //helpers
 const { userRegisterSchema, companyRegisterSchema, loginValidationSchema } = require('./app/helpers/userValidationSchema')
 const quotationValidationSchema = require('./app/helpers/quotationValidationSchema')
@@ -17,6 +19,7 @@ const enquiryValidationSchema = require('./app/helpers/enquiryValidationSchema')
 const productValidation = require('./app/helpers/productValidation')
 const authenticateUser = require('./app/middlewares/authenticate')
 const orderValidation = require('./app/helpers/orderAcceptanceValidation')
+
 //controllers
 const categoryCltr = require('./app/controllers/category-ctlr')
 const productCltr = require('./app/controllers/product-ctlr')
@@ -56,6 +59,7 @@ app.get('/api/quotations/list', authenticateUser, quotationCtlr.list)
 //order-acceptance
 app.post('/api/orders/create', orderAcceptanceCtlr.create)
 app.get('/api/orders/list', orderAcceptanceCtlr.list)
+
 app.listen(port, () => {
     console.log('connected to port', port)
 })

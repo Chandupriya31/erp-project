@@ -16,7 +16,8 @@ const paymentSchema = new Schema({
     customer:{
         type:Schema.Types.ObjectId,
         ref:'User'
-    }
+    },
+    status:String
 },{timestamps:true})
 
 const Payment = model('Payment',paymentSchema)

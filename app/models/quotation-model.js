@@ -15,15 +15,10 @@ const quotationSchema = new Schema({
       isApproved: Boolean
    },
    pdf: String,
-   comments: [{
-      title: {
-         type: String
-      },
-      userId: {
-         type: Schema.Types.ObjectId,
-         ref: 'User'
-      }
-   }]
+   product:{
+      type:Schema.Types.ObjectId,
+      ref: 'Product'
+   }
 }, { timestamps: true })
 
 const Quotation = model('Quotation', quotationSchema)
