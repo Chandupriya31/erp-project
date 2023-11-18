@@ -4,7 +4,7 @@ const cors = require('cors')
 const app = express()
 app.use(express.json())
 app.use(cors())
-const configDB = require('./config/db')
+const configDB = require('./app/config/db')
 const userCtlr = require('./app/controllers/users-ctlr')
 const multer = require('multer')
 configDB()
@@ -31,6 +31,7 @@ const upload = multer()
 const port = process.env.PORT || 3030
 //users & company
 app.post('/api/user/register', checkSchema(userRegisterSchema), userCtlr.userRegister)
+app.get('/api/users/verify/:token', userCtlr.verify)
 app.post('/api/company/register', checkSchema(companyRegisterSchema), userCtlr.companyRegister)
 app.post('/api/login', checkSchema(loginValidationSchema), userCtlr.login)
 app.get('/api/users/list', userCtlr.list)
@@ -60,11 +61,6 @@ app.get('/api/quotations/list', authenticateUser, quotationCtlr.list)
 app.post('/api/orders/create', checkSchema(orderValidation), orderAcceptanceCtlr.create)
 app.get('/api/orders/list', orderAcceptanceCtlr.list)
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> ee6d3552411655c6750831e7c7034aa288d67b3e
 app.listen(port, () => {
     console.log('connected to port', port)
 })
