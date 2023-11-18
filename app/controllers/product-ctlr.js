@@ -113,20 +113,20 @@ productCltr.delete = async (req, res) => {
 //    }
 // };
 
-productCltr.update = async (req, res) => {
-   const errros = validationResult(req)
-   if (!errros.isEmpty()) {
-      return res.status(400).json({ errros: errros.array() })
-   }
-   const id = req.params.id
-   const body = req.body
-   try {
-      const product = await Product.findByIdAndUpdate(id, body, { new: true })
-      product.save()
-      res.json(product)
-   } catch (e) {  
-      res.status(500).json(e)
-   }
-}
+// productCltr.update = async (req, res) => {
+//    const errros = validationResult(req)
+//    if (!errros.isEmpty()) {
+//       return res.status(400).json({ errros: errros.array() })
+//    }
+//    const id = req.params.id
+//    const body = req.body
+//    try {
+//       const product = await Product.findByIdAndUpdate(id, body, { new: true })
+//       product.save()
+//       res.json(product)
+//    } catch (e) {  
+//       res.status(500).json(e)
+//    }
+// }
 
 module.exports = productCltr

@@ -16,7 +16,7 @@ const quotationValidationSchema = require('./app/helpers/quotationValidationSche
 const categoryValidationSchema = require('./app/helpers/categoryValidation')
 const enquiryValidationSchema = require('./app/helpers/enquiryValidationSchema')
 const productValidation = require('./app/helpers/productValidation')
-const authenticateUser = require('./app/middlewares/authenticate')
+const {authenticateUser,authorizeUser} = require('./app/middlewares/authenticate')
 const orderValidation = require('./app/helpers/orderAcceptanceValidation')
 
 //controllers
@@ -31,45 +31,46 @@ const commentsCtlr = require('./app/controllers/comments-ctlr')
 const upload = multer()
 
 const port = process.env.PORT || 3030
+
 //users & company
 app.post('/api/user/register', checkSchema(userRegisterSchema), userCtlr.userRegister)
 app.get('/api/users/verify/:token', userCtlr.verify)
 app.post('/api/company/register', checkSchema(companyRegisterSchema), userCtlr.companyRegister)
 app.post('/api/login', checkSchema(loginValidationSchema), userCtlr.login)
-app.get('/api/users/list', userCtlr.list)
-app.get('/api/companies/list', userCtlr.listCompanies)
+app.get('/api/users/list',authenticateUser,authorizeUser(['superAdmin']),userCtlr.list)
+app.get('/api/companies/list', authenticateUser , authorizeUser(['superAdmin']) ,userCtlr.listCompanies)
 app.get('/api/getprofile', authenticateUser, userCtlr.getProfile)
 
 //category
-app.post('/api/categories', authenticateUser, checkSchema(categoryValidationSchema), categoryCltr.create)
+app.post('/api/categories', authenticateUser,authorizeUser(['companyAdmin']), checkSchema(categoryValidationSchema), categoryCltr.create)
 app.get('/api/categories/list', categoryCltr.list)
-// app.delete('/api/categories/:id')
+
 // product
-app.post('/api/products', upload.array('image'), authenticateUser, checkSchema(productValidation), productCltr.create)
+app.post('/api/products', upload.array('image'), authenticateUser, authorizeUser(['companyAdmin']) ,checkSchema(productValidation), productCltr.create)
 app.get('/api/products/list', productCltr.list)
 app.get('/api/:categoryId/products', productCltr.category)
-app.delete('/api/products/:id', authenticateUser, productCltr.delete)
-app.put('/api/products/update/:id', upload.array('image'), authenticateUser, productCltr.update)
+app.delete('/api/products/:id', authenticateUser, authorizeUser(['companyAdmin']), productCltr.delete)
+// app.put('/api/products/update/:id', upload.array('image'), authenticateUser, productCltr.update)
 
 //enquiry model
-app.post('/api/enquiry/create', authenticateUser, checkSchema(enquiryValidationSchema), enquiryCtlr.create)
-app.get('/api/enquiries/list', enquiryCtlr.list)
+app.post('/api/enquiry/create', authenticateUser,authorizeUser(['customer']),checkSchema(enquiryValidationSchema), enquiryCtlr.create)
+app.get('/api/enquiries/list', authenticateUser,authorizeUser(['customer','companyAdmin']), enquiryCtlr.list)
 
 //quotation
-app.post('/api/quotation/create', authenticateUser, checkSchema(quotationValidationSchema), quotationCtlr.create)
-app.get('/api/quotations/list', quotationCtlr.list)
+app.post('/api/quotation/create', authenticateUser, authorizeUser(['companyAdmin']),checkSchema(quotationValidationSchema), quotationCtlr.create)
+app.get('/api/quotations/list',authenticateUser,authorizeUser(['customer','companyAdmin']),quotationCtlr.list)
 
 //order-acceptance
-app.post('/api/orders/create', checkSchema(orderValidation), orderAcceptanceCtlr.create)
-app.get('/api/orders/list', orderAcceptanceCtlr.list)
+app.post('/api/orders/create', authenticateUser,authorizeUser(['companyAdmin']),checkSchema(orderValidation), orderAcceptanceCtlr.create)
+app.get('/api/orders/list', authenticateUser,authorizeUser(['customer']),orderAcceptanceCtlr.list)
 
 //payment
-app.post('/api/payment',authenticateUser,checkSchema(paymentValidation),paymentCtlr.create)
-app.put('/api/payment',paymentCtlr.update)
+app.post('/api/payment',authenticateUser,authorizeUser(['customer']),checkSchema(paymentValidation),paymentCtlr.create)
+app.put('/api/payment',authenticateUser,authorizeUser(['customer']),paymentCtlr.update)
 
 //comments
-app.post('/api/quotation/comments',authenticateUser,commentsCtlr.create)
-app.get('/api/quotation/comments',authenticateUser,commentsCtlr.list)
+app.post('/api/quotation/comments',authenticateUser,authorizeUser(['customer','companyAdmin']),commentsCtlr.create)
+app.get('/api/quotation/comments',authenticateUser,authorizeUser(['customer','companyAdmin']),commentsCtlr.list)
 
 app.listen(port, () => {
     console.log('connected to port', port)

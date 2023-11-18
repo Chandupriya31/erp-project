@@ -16,7 +16,6 @@ orderAcceptanceCtlr.create = async (req, res) => {
    order.date = new Date()
    try {
       await order.save()
-
       if (order.orderAcceptance) {
          const customer = await User.findById(order.customerId)
          const product = await Product.findById(order.productId)
@@ -38,6 +37,13 @@ orderAcceptanceCtlr.create = async (req, res) => {
             } else {
                console.error('Product not found for order ID:', order.productId);
                return res.status(404).json({ message: 'Product not found' });
+            const mailOptions = {
+               from: process.env.NODE_MAILER_MAIL,
+               to: customer.email,
+               subject: 'Order Acceptance-Confirmation',
+               html: `<p>order is accepted for quotationNum-"${order.quotationId}" 
+                  and expected deliver date-"${new Date(order.deliveryDate).toLocaleDateString()}"
+               </p>`
             }
          } else {
             console.error('Customer not found or email not available');
@@ -50,6 +56,7 @@ orderAcceptanceCtlr.create = async (req, res) => {
    }
 
 }
+
 orderAcceptanceCtlr.list = async (req, res) => {
    try {
       const order = await OrderAcceptance.find()

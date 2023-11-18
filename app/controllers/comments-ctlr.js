@@ -1,14 +1,16 @@
 const Comment = require('../models/comment-model')
+const Quotation = require('../models/quotation-model')
 
 const commentsCtlr = {}
 
 commentsCtlr.create = async(req,res)=>{
     const body = req.body
-    const comments = new Comment(body)
-    comments.userId = req.user.id
+    const comment = new Comment(body)
+    comment.userId = req.user.id
     try{
-        await comments.save()
-        res.json(comments)
+        await comment.save()
+        await Quotation.findOneAndUpdate({_id:comment.quotationId},{$push:{comments:comment._id}})
+        res.json(comment)
     }catch(e){
         res.status(500).json(e)
     }
