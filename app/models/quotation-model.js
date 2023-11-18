@@ -19,6 +19,10 @@ const quotationSchema = new Schema({
    product:{
       type:Schema.Types.ObjectId,
       ref: 'Product'
+   },
+   comments:{
+      type: Schema.Types.ObjectId,
+      ref:'Comment'
    }
 }, { timestamps: true })
 
