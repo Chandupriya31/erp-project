@@ -10,6 +10,10 @@ const orderSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Payment'
    },
+   customerId: { // New field to store the customer's ID
+      type: Schema.Types.ObjectId,
+      ref: 'User' // Assuming User model holds customer information
+   },
    paymentStatus: {
       type: String,
       enum: ['pending', 'completed'],
