@@ -6,6 +6,10 @@ const orderSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Quotation'
    },
+   productId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Product'
+   },
    paymentId: {
       type: Schema.Types.ObjectId,
       ref: 'Payment'

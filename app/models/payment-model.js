@@ -17,11 +17,7 @@ const paymentSchema = new Schema({
         type:Schema.Types.ObjectId,
         ref:'User'
     },
-    status:{
-        type:String,
-        enum:['pending','successful'],
-        default:'pending'
-    }
+    status:String
 },{timestamps:true})
 
 const Payment = model('Payment',paymentSchema)

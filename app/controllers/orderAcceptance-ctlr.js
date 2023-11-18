@@ -1,5 +1,7 @@
 const OrderAcceptance = require('../models/orderacceptance-model')
+const Product = require('../models/product-model')
 const User = require('../models/users-model')
+const Payment = require('../models/payment-model')
 const { validationResult } = require('express-validator')
 const transporter = require('../config/nodemailer')
 const orderAcceptanceCtlr = {}
@@ -17,19 +19,29 @@ orderAcceptanceCtlr.create = async (req, res) => {
 
       if (order.orderAcceptance) {
          const customer = await User.findById(order.customerId)
+         const product = await Product.findById(order.productId)
+         console.log(product)
          if (customer && customer.email) {
             console.log(customer.email)
-            const mailOptions = {
-               from: process.env.NODE_MAILER_MAIL,
-               to: customer.email,
-               subject: 'Email Verification',
-               html: `<p>order is accecpted for quotationNum-"${order.quotationId}" 
-                  and expected deliver date-"${new Date(order.deliveryDate).toLocaleDateString()}"
-               </p>`
+            if (product) {
+               const mailOptions = {
+                  from: process.env.NODE_MAILER_MAIL,
+                  to: customer.email,
+                  subject: 'Email Verification',
+                  html: `<p>your order for -"${product.productname}" has been accepted<br/>
+                     and expected deliver date-"${new Date(order.deliveryDate).toLocaleDateString()}"<br/>
+                     payment received -
+                  </p>`
+               }
+               await transporter.sendMail(mailOptions)
+
+            } else {
+               console.error('Product not found for order ID:', order.productId);
+               return res.status(404).json({ message: 'Product not found' });
             }
-            await transporter.sendMail(mailOptions)
          } else {
             console.error('Customer not found or email not available');
+            return res.status(404).json({ message: 'Customer or email not found' });
          }
       }
       res.json(order)
