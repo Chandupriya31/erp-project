@@ -27,6 +27,7 @@ const quotationCtlr = require('./app/controllers/quotation-ctlr')
 const orderAcceptanceCtlr = require('./app/controllers/orderAcceptance-ctlr')
 const paymentValidation = require('./app/helpers/paymentValidation')
 const paymentCtlr = require('./app/controllers/payment-ctlr')
+const commentsCtlr = require('./app/controllers/comments-ctlr')
 const upload = multer()
 
 const port = process.env.PORT || 3030
@@ -65,6 +66,10 @@ app.get('/api/orders/list', orderAcceptanceCtlr.list)
 //payment
 app.post('/api/payment',authenticateUser,checkSchema(paymentValidation),paymentCtlr.create)
 app.put('/api/payment',paymentCtlr.update)
+
+//comments
+app.post('/api/quotation/comments',authenticateUser,commentsCtlr.create)
+app.get('/api/quotation/comments',authenticateUser,commentsCtlr.list)
 
 app.listen(port, () => {
     console.log('connected to port', port)
