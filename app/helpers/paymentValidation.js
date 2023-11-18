@@ -38,6 +38,8 @@ const paymentValidation = {
     type:paymenttypeSchema,
     transactionId:transactionSchema,
     amount: amountSchema,
-    quotationId:quotationSchema,
+    quotation:quotationSchema,
     customer:customerSchema
 }
+
+module.exports = paymentValidation

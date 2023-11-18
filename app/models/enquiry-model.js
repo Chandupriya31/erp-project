@@ -11,7 +11,7 @@ const enquirySchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    company: {
+    company:{
         type: Schema.Types.ObjectId,
         ref: 'Company'
     },

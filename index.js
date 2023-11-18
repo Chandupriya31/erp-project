@@ -9,7 +9,6 @@ const userCtlr = require('./app/controllers/users-ctlr')
 const multer = require('multer')
 configDB()
 const { checkSchema } = require('express-validator')
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 //helpers
 const { userRegisterSchema, companyRegisterSchema, loginValidationSchema } = require('./app/helpers/userValidationSchema')
@@ -26,6 +25,8 @@ const productCltr = require('./app/controllers/product-ctlr')
 const enquiryCtlr = require('./app/controllers/enquiry-ctlr')
 const quotationCtlr = require('./app/controllers/quotation-ctlr')
 const orderAcceptanceCtlr = require('./app/controllers/orderAcceptance-ctlr')
+const paymentValidation = require('./app/helpers/paymentValidation')
+const paymentCtlr = require('./app/controllers/payment-ctlr')
 const upload = multer()
 
 const port = process.env.PORT || 3030
@@ -54,17 +55,16 @@ app.get('/api/enquiries/list', enquiryCtlr.list)
 
 //quotation
 app.post('/api/quotation/create', authenticateUser, checkSchema(quotationValidationSchema), quotationCtlr.create)
-app.get('/api/quotations/list', authenticateUser, quotationCtlr.list)
+app.get('/api/quotations/list', quotationCtlr.list)
 
 //order-acceptance
 app.post('/api/orders/create', checkSchema(orderValidation), orderAcceptanceCtlr.create)
 app.get('/api/orders/list', orderAcceptanceCtlr.list)
 
-<<<<<<< HEAD
+//payment
+app.post('/api/payment',authenticateUser,checkSchema(paymentValidation),paymentCtlr.create)
+app.put('/api/payment',paymentCtlr.update)
 
-
-=======
->>>>>>> ee6d3552411655c6750831e7c7034aa288d67b3e
 app.listen(port, () => {
     console.log('connected to port', port)
 })

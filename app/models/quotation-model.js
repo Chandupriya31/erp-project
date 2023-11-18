@@ -6,6 +6,7 @@ const quotationSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Enquiry'
    },
+   quantity:Number,
    unitPrice: Number,
    totalCost: Number,
    date: Date,
