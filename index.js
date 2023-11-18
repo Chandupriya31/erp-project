@@ -54,8 +54,11 @@ app.post('/api/quotation/create', authenticateUser, checkSchema(quotationValidat
 app.get('/api/quotations/list', authenticateUser, quotationCtlr.list)
 
 //order-acceptance
-app.post('/api/orders/create', orderAcceptanceCtlr.create)
+app.post('/api/orders/create', checkSchema(orderValidation), orderAcceptanceCtlr.create)
 app.get('/api/orders/list', orderAcceptanceCtlr.list)
+
+
+
 app.listen(port, () => {
     console.log('connected to port', port)
 })
