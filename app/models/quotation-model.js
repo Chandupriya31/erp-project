@@ -20,10 +20,10 @@ const quotationSchema = new Schema({
       type:Schema.Types.ObjectId,
       ref: 'Product'
    },
-   comments:{
+   comments:[{
       type: Schema.Types.ObjectId,
       ref:'Comment'
-   }
+   }]
 }, { timestamps: true })
 
 const Quotation = model('Quotation', quotationSchema)

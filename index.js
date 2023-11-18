@@ -31,6 +31,7 @@ const commentsCtlr = require('./app/controllers/comments-ctlr')
 const upload = multer()
 
 const port = process.env.PORT || 3030
+
 //users & company
 app.post('/api/user/register', checkSchema(userRegisterSchema), userCtlr.userRegister)
 app.get('/api/users/verify/:token', userCtlr.verify)
@@ -43,7 +44,7 @@ app.get('/api/getprofile', authenticateUser, userCtlr.getProfile)
 //category
 app.post('/api/categories', authenticateUser, checkSchema(categoryValidationSchema), categoryCltr.create)
 app.get('/api/categories/list', categoryCltr.list)
-// app.delete('/api/categories/:id')
+
 // product
 app.post('/api/products', upload.array('image'), authenticateUser, checkSchema(productValidation), productCltr.create)
 app.get('/api/products/list', productCltr.list)
