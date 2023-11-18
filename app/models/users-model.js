@@ -10,9 +10,12 @@ const userSchema = new Schema({
         type: String,
         enum: ['superAdmin', 'companyAdmin', 'customer'],
         default: 'customer'
-    }, verified: {
+    }, 
+    verified: {
         type: Boolean,
-        default: false
+        default: function () {
+            return this.role === 'customer' ? false : true
+        }
     },
 
     myenquiries: {

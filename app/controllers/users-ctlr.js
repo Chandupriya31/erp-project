@@ -30,7 +30,7 @@ userCtlr.userRegister = async (req, res) => {
 
             const mailOptions = {
                 from: process.env.NODE_MAILER_MAIL, // Sender email
-                to: user.email || 'pn14016@gmail.com',  // Newly registered user's email
+                to: user.email || 'priyadavuluru@gmail.com',  // Newly registered user's email
                 subject: 'Email Verification',
                 html: `
                     <p>Hello,</p>
