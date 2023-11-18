@@ -4,12 +4,6 @@ const paymenttypeSchema = {
     }
 }
 
-const transactionSchema = {
-    notEmpty:{
-        errorMessage:'Transaction Id should be given'
-    }
-}
-
 const amountSchema = {
     notEmpty:{
         errorMessage:'Amount should not be empty'
@@ -25,21 +19,10 @@ const quotationSchema = {
     }
 }
 
-const customerSchema = {
-    notEmpty:{
-        errorMessage:'Quotation shouldn\'t be empty'
-    },
-    isMongoId:{
-        errorMessage:'Quotation Id should be valid'
-    }
-}
-
 const paymentValidation = {
     type:paymenttypeSchema,
-    transactionId:transactionSchema,
     amount: amountSchema,
-    quotation:quotationSchema,
-    customer:customerSchema
+    quotation:quotationSchema
 }
 
 module.exports = paymentValidation
