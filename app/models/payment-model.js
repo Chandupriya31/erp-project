@@ -9,14 +9,15 @@ const paymentSchema = new Schema({
     },
     transactionId: String,
     amount:Number,
-    quotationId:{
+    quotation:{
         type:Schema.Types.ObjectId,
         ref:'Quotation'
     },
     customer:{
         type:Schema.Types.ObjectId,
         ref:'User'
-    }
+    },
+    status:String
 },{timestamps:true})
 
 const Payment = model('Payment',paymentSchema)
