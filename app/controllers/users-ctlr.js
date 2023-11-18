@@ -72,8 +72,6 @@ userCtlr.verify = async (req, res) => {
     }
 }
 
-
-
 userCtlr.companyRegister = async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {

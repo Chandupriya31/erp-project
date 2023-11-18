@@ -14,7 +14,6 @@ orderAcceptanceCtlr.create = async (req, res) => {
    order.date = new Date()
    try {
       await order.save()
-
       if (order.orderAcceptance) {
          const customer = await User.findById(order.customerId)
          if (customer && customer.email) {
@@ -22,8 +21,8 @@ orderAcceptanceCtlr.create = async (req, res) => {
             const mailOptions = {
                from: process.env.NODE_MAILER_MAIL,
                to: customer.email,
-               subject: 'Email Verification',
-               html: `<p>order is accecpted for quotationNum-"${order.quotationId}" 
+               subject: 'Order Acceptance-Confirmation',
+               html: `<p>order is accepted for quotationNum-"${order.quotationId}" 
                   and expected deliver date-"${new Date(order.deliveryDate).toLocaleDateString()}"
                </p>`
             }
@@ -38,6 +37,7 @@ orderAcceptanceCtlr.create = async (req, res) => {
    }
 
 }
+
 orderAcceptanceCtlr.list = async (req, res) => {
    try {
       const order = await OrderAcceptance.find()
