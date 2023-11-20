@@ -109,10 +109,10 @@ const visionSchema = {
     notEmpty: {
         errorMessage: 'company vision can\'t be empty'
     },
-    isLength: {
-        options: { min: 5, max: 10 },
-        errorMessage: 'company vision should be b/w 50-100 chars'
-    }
+    // isLength: {
+    //     options: { min: 5, max: 10 },
+    //     errorMessage: 'company vision should be b/w 5-10 chars'
+    // }
 }
 
 const missionSchema = {
@@ -121,7 +121,7 @@ const missionSchema = {
     },
     // isLength: {
     //     options: { min: 5, max: 10 },
-    //     errorMessage: 'company mission should be b/w 50-100 chars'
+    //     errorMessage: 'company mission should be b/w 5-10 chars'
     // }
 }
 
@@ -129,10 +129,10 @@ const aboutSchema = {
     notEmpty: {
         errorMessage: 'About company can\'t be empty'
     },
-    isLength: {
-        options: { min: 5, max: 20 },
-        errorMessage: 'About company should be b/w 50-200 chars'
-    }
+    // isLength: {
+    //     options: { min: 5, max: 20 },
+    //     errorMessage: 'About company should be b/w 5-20 chars'
+    // }
 }
 const userRegisterSchema = {
     username: nameSchema,
