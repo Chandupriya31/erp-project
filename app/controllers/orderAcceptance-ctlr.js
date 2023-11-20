@@ -62,7 +62,7 @@ orderAcceptanceCtlr.create = async (req, res) => {
       const mailOptions = {
          from: process.env.NODE_MAILER_MAIL,
          to: customer.email,
-         subject: 'Email Verification',
+         subject: 'order acceptance mail',
          html: `<p>Your order for "${product.productname}" has been accepted and the expected delivery date is "${new Date(order.deliveryDate).toLocaleDateString()}". Payment received - Transaction ID: ${payment.transactionId}</p>`
       }
       await transporter.sendMail(mailOptions)
