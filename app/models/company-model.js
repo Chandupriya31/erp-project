@@ -1,34 +1,38 @@
 const mongoose = require('mongoose')
-const {Schema,model} = mongoose
+const { Schema, model } = mongoose
 
 const companySchema = new Schema({
-    companyname:String,
-    GST:String,
-    contactdetails:{
-        address: String,
-        phone:Number,
-        email:String
+    companyname: String,
+    GST: String,
+    contactdetails: {
+        address: {
+            name: String,
+            lattitude: Number,
+            longitude: Number
+        },
+        phone: Number,
+        email: String
     },
-    products:[Schema.Types.ObjectId],
-    customers:[Schema.Types.ObjectId],
-    categories:[Schema.Types.ObjectId],
+    products: [Schema.Types.ObjectId],
+    customers: [Schema.Types.ObjectId],
+    categories: [Schema.Types.ObjectId],
     companydetails: Schema.Types.ObjectId,
-    isApproval:{
-        type:Boolean,
-        default:false
+    isApproval: {
+        type: Boolean,
+        default: false
     },
-    userId:{
-        type:Schema.Types.ObjectId,
-        ref:'User'
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     },
-    enquiries:[Schema.Types.ObjectId],
-    quotations:[Schema.Types.ObjectId],
-    details:{
-        vision:String,
-        mission:String,
-        aboutus:String
+    enquiries: [Schema.Types.ObjectId],
+    quotations: [Schema.Types.ObjectId],
+    details: {
+        vision: String,
+        mission: String,
+        aboutus: String
     }
-},{timestamps:true})
+}, { timestamps: true })
 
-const Company = model('Company',companySchema)
+const Company = model('Company', companySchema)
 module.exports = Company

@@ -2,6 +2,7 @@ const User = require('../models/users-model')
 const Company = require('../models/company-model')
 const { validationResult } = require('express-validator')
 const bcrypt = require('bcryptjs')
+const axios = require('axios')
 const _ = require('lodash')
 const uuid = require('uuid')
 const jwt = require('jsonwebtoken')
@@ -30,7 +31,7 @@ userCtlr.userRegister = async (req, res) => {
 
             const mailOptions = {
                 from: process.env.NODE_MAILER_MAIL, // Sender email
-                to: user.email || 'priyadavuluru@gmail.com',  // Newly registered user's email
+                to: user.email || 'priyadavuluru@gmail.com' || "pavanat24official@gmail.com",  // Newly registered user's email
                 subject: 'Email Verification',
                 html: `
                     <p>Hello,</p>
@@ -81,6 +82,8 @@ userCtlr.companyRegister = async (req, res) => {
         const body = req.body
         const user = new User(body)
         const body1 = req.body
+        //const address = await 
+
         const salt = await bcrypt.genSalt()
         user.password = await bcrypt.hash(user.password, salt)
         const totalDocuments = await User.countDocuments()
@@ -93,6 +96,10 @@ userCtlr.companyRegister = async (req, res) => {
             company.isApproval = true
         }
         company.userId = user._id
+        const response = await axios.get(`https://api.geoapify.com/v1/geocode/search?text=${body1.contactdetails.address.name}&format=json&apiKey=ded62e99b09540618a5035ea72fa33ec`)
+        company.contactdetails.address.lattitude = response.data.results[0].lat
+        company.contactdetails.address.longitude = response.data.results[0].lon
+        console.log(response.data)
         await company.save()
         res.json({ user, company })
     } catch (e) {
