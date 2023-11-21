@@ -3,12 +3,25 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 app.use(express.json())
+const cron = require('node-cron')
 app.use(cors())
 const configDB = require('./app/config/db')
 const userCtlr = require('./app/controllers/users-ctlr')
 const multer = require('multer')
 configDB()
 const { checkSchema } = require('express-validator')
+
+
+// cron.schedule('0 * * * * *', async() => {
+//     try{
+//         const response = await axios.get('http://127.0.0.1:4320/api/notify')
+//     }catch(e){
+//         console.log("error",e)
+//     }
+//     //const date = new Date()
+//     console.log('cron', date)
+// })
+
 
 //helpers
 const { userRegisterSchema, companyRegisterSchema, loginValidationSchema } = require('./app/helpers/userValidationSchema')
@@ -63,6 +76,8 @@ app.get('/api/quotations/list', authenticateUser, authorizeUser(['customer', 'co
 //order-acceptance
 app.post('/api/orders/create', authenticateUser, authorizeUser(['companyAdmin']), checkSchema(orderValidation), orderAcceptanceCtlr.create)
 app.get('/api/orders/list', authenticateUser, authorizeUser(['customer']), orderAcceptanceCtlr.list)
+
+//app.get('/api/notify', orderAcceptanceCtlr.notify)
 
 //payment
 app.post('/api/payment', authenticateUser, authorizeUser(['customer']), checkSchema(paymentValidation), paymentCtlr.create)
