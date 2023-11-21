@@ -109,10 +109,10 @@ const visionSchema = {
     notEmpty: {
         errorMessage: 'company vision can\'t be empty'
     },
-    isLength: {
-        options: { min: 5, max: 10 },
-        errorMessage: 'company vision should be b/w 50-100 chars'
-    }
+    // isLength: {
+    //     options: { min: 5, max: 10 },
+    //     errorMessage: 'company vision should be b/w 50-100 chars'
+    // }
 }
 
 const missionSchema = {
