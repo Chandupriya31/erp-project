@@ -6,7 +6,7 @@ const nameSchema = {
     },
     isLength: {
         options: { min: 4, max: 50 },
-        errorMessage: 'Name shouldn\'t be b/w 4-50 characters'
+        errorMessage: 'Name should be b/w 4-50 characters'
     },
     custom: {
         options: async (value) => {
