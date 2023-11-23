@@ -31,7 +31,7 @@ userCtlr.userRegister = async (req, res) => {
 
             const mailOptions = {
                 from: process.env.NODE_MAILER_MAIL, // Sender email
-                to: user.email || 'priyadavuluru@gmail.com' || "pavanat24official@gmail.com",  // Newly registered user's email
+                to: user.email || 'priyadavuluru@gmail.com' && "pavanat24official@gmail.com",  // Newly registered user's email
                 subject: 'Email Verification',
                 html: `
                     <p>Hello,</p>
@@ -171,4 +171,11 @@ userCtlr.listCompanies = async (req, res) => {
     }
 }
 
+// userCtlr.findCompany = async(req,res)=>{
+//     try{
+//         const company = await Company.findOne({userId:req.user.id})
+//     }catch(e){
+//         res.status(500).json(e)
+//     }
+// }
 module.exports = userCtlr
