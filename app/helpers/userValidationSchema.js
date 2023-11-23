@@ -6,7 +6,7 @@ const nameSchema = {
     },
     isLength: {
         options: { min: 4, max: 50 },
-        errorMessage: 'Name shouldn\'t be b/w 4-50 characters'
+        errorMessage: 'Name should be b/w 4-50 characters'
     },
     custom: {
         options: async (value) => {
@@ -141,6 +141,10 @@ const visionSchema = {
     // isLength: {
     //     options: { min: 5, max: 10 },
     //     errorMessage: 'company vision should be b/w 5-10 chars'
+    // }
+    // isLength: {
+    //     options: { min: 5, max: 10 },
+    //     errorMessage: 'company vision should be b/w 50-100 chars'
     // }
 }
 
