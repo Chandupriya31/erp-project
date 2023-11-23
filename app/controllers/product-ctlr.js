@@ -124,6 +124,7 @@ productCltr.delete = async (req, res) => {
 //       const product = await Product.findByIdAndUpdate(id, body, { new: true })
 //       product.save()
 //       res.json(product)
+
 //    } catch (e) {  
 //       res.status(500).json(e)
 //    }
