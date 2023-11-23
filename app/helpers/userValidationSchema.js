@@ -1,5 +1,5 @@
 const User = require("../models/users-model")
-
+const bcrypt = require('bcryptjs');
 const nameSchema = {
     notEmpty: {
         errorMessage: 'Name cannot be empty'
@@ -57,6 +57,35 @@ const passwordSchema = {
         errorMessage: 'Entered password is not a strong password'
     }
 }
+const loginValidationSchema = {
+    email: {
+        notEmpty: {
+            errorMessage: 'Email cannot be empty'
+        },
+        isEmail: {
+            errorMessage: 'Email is not valid'
+        }
+    },
+    password: {
+        notEmpty: {
+            errorMessage: 'Password is required'
+        },
+        custom: {
+            options: async (value, { req }) => {
+                const { email } = req.body; // Assuming you're using Express.js and req.body for input
+                const user = await User.findOne({ email });
+                if (!user) {
+                    throw new Error('Incorrect email or password');
+                }
+                const passwordMatch = await bcrypt.compare(value, user.password);
+                if (!passwordMatch) {
+                    throw new Error('Incorrect email or password');
+                }
+                return true;
+            }
+        }
+    }
+};
 
 const companynameSchema = {
     notEmpty: {
@@ -140,17 +169,17 @@ const userRegisterSchema = {
     password: passwordSchema
 }
 
-const loginValidationSchema = {
-    email: {
-        notEmpty: {
-            errorMessage: 'Email cannot be empty'
-        },
-        isEmail: {
-            errorMessage: 'Email is not valid'
-        }
-    },
-    password: passwordSchema
-}
+// const loginValidationSchema = {
+//     email: {
+//         notEmpty: {
+//             errorMessage: 'Email cannot be empty'
+//         },
+//         isEmail: {
+//             errorMessage: 'Email is not valid'
+//         }
+//     },
+//     password: passwordSchema
+// }
 
 const companyRegisterSchema = {
     username: nameSchema,
