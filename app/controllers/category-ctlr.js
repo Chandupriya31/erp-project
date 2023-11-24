@@ -11,10 +11,12 @@ categoryCltr.create = async (req, res) => {
       return res.status(400).json({ errors: errors.array() })
    }
    const body = req.body
+   const data = await Company.findOne({userId:req.user.id})
+   body.companyId = data._id
    const category = new Category(body)
    try {
       await category.save()
-      await Company.findOneAndUpdate({_id:category.companyId},{$push:{categories:category._id}})
+      await Company.findOneAndUpdate({userId:req.user.id},{$push:{categories:category._id}})
       res.json(category)
    } catch (e) {
       res.status(500).json(e)
