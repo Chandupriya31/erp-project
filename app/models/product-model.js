@@ -7,7 +7,7 @@ const productSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Company'
    }],
-   perUnitCost:Number,
+   perUnitCost: Number,
    image: [{ url: String, key: String }],
    categoryId: {
       type: Schema.Types.ObjectId,
