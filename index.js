@@ -51,7 +51,7 @@ app.get('/api/users/verify/:token', userCtlr.verify)
 app.post('/api/company/register', checkSchema(companyRegisterSchema), userCtlr.companyRegister)
 app.post('/api/login', checkSchema(loginValidationSchema), userCtlr.login)
 app.get('/api/users/list', authenticateUser, authorizeUser(['superAdmin']), userCtlr.list)
-app.get('/api/companies/list', authenticateUser, authorizeUser(['superAdmin']), userCtlr.listCompanies)
+app.get('/api/companies/list', userCtlr.listCompanies)
 app.get('/api/getprofile', authenticateUser, userCtlr.getProfile)
 
 //category
