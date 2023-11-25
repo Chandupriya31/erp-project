@@ -2,6 +2,7 @@ const Company = require('../models/company-model')
 const Enquiry = require('../models/enquiry-model')
 const {validationResult} = require('express-validator')
 const User = require('../models/users-model')
+const Product = require('../models/product-model')
 
 const enquiryCtlr = {}
 

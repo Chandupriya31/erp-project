@@ -62,6 +62,7 @@ app.get('/api/categories/list', categoryCltr.list)
 app.post('/api/products', upload.array('image'), authenticateUser, authorizeUser(['companyAdmin']), checkSchema(productValidation), productCltr.create)
 app.get('/api/products/list', productCltr.list)
 app.get('/api/:id/products', productCltr.category)
+app.get('/api/productdetails/:id',productCltr.find)
 app.delete('/api/products/:id', authenticateUser, authorizeUser(['companyAdmin']), productCltr.delete)
 // app.put('/api/products/update/:id', upload.array('image'), authenticateUser, productCltr.update)
 

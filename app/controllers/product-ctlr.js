@@ -51,6 +51,16 @@ productCltr.category = async (req, res) => {
    }
 }
 
+productCltr.find = async(req,res)=>{
+   const id = req.params.id
+   try{
+      const product = await Product.findById(id).populate('companyId',['companyname'])
+      res.json(product)
+   }catch(e){
+      res.status(500).json(e)
+   }
+}
+
 productCltr.delete = async (req, res) => {
    const productId = req.params.id
    try {

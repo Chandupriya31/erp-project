@@ -2,7 +2,6 @@ const Category = require('../models/category-model')
 const { validationResult } = require('express-validator')
 const _ = require('lodash')
 const Company = require('../models/company-model')
-const { category } = require('./product-ctlr')
 const categoryCltr = {}
 
 categoryCltr.create = async (req, res) => {
