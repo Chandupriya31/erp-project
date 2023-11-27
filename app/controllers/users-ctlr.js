@@ -153,6 +153,15 @@ userCtlr.getProfile = async (req, res) => {
     }
 }
 
+userCtlr.getEnquiries = async(req,res)=>{
+    try{
+        const enquiries = await Company.findOne({userId:req.user.id}).populate('enquiries')
+        res.json(enquiries)
+    }catch(e){
+        res.status(500).json(e)
+    }
+}
+
 userCtlr.list = async (req, res) => {
     try {
         const users = await User.find()

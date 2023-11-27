@@ -13,9 +13,18 @@ const companySchema = new Schema({
         phone: Number,
         email: String
     },
-    products: [Schema.Types.ObjectId],
-    customers: [Schema.Types.ObjectId],
-    categories: [Schema.Types.ObjectId],
+    products: [{
+        type:Schema.Types.ObjectId,
+        ref:'Product'
+    }],
+    customers: [{
+        type:Schema.Types.ObjectId,
+        ref:'User'
+    }],
+    categories: [{
+        type:Schema.Types.ObjectId,
+        ref:'Category'
+    }],
     companydetails: Schema.Types.ObjectId,
     isApproval: {
         type: Boolean,
@@ -25,8 +34,14 @@ const companySchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    enquiries: [Schema.Types.ObjectId],
-    quotations: [Schema.Types.ObjectId],
+    enquiries: [{
+        type:Schema.Types.ObjectId,
+        ref:'Enquiry'
+    }],
+    quotations: [{
+        type:Schema.Types.ObjectId,
+        ref:'Quotation'
+    }],
     details: {
         vision: String,
         mission: String,
