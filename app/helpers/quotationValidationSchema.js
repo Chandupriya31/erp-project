@@ -51,8 +51,7 @@ const quotationValidationSchema = {
     unitPrice:priceSchema,
     totalCost: priceSchema,
     quotationExpiry: expiryValidationSchema,
-    'termsandconditions.delivery':deliverySchema,
-    //pdf:pdfSchema
+    'termsandconditions.delivery':deliverySchema
 }
 
 module.exports = quotationValidationSchema
