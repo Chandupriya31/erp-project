@@ -63,7 +63,7 @@ userCtlr.verify = async (req, res) => {
             user.verified = !user.verified
             const verified = await user.save()
             if (verified) {
-                res.json("Thankyou for registering with us.... Your account has been successfully verified.Please login to continue" )
+                res.json("Thankyou for registering with us.... Your account has been successfully verified.Please login to continue")
             }
         } else {
             res.json({ msg: "Your account has already been verified....Please login to continue" })
@@ -142,7 +142,13 @@ userCtlr.getProfile = async (req, res) => {
     try {
         if (req.user.role == 'companyAdmin') {
             const user = await User.findById(req.user.id)
-            const company = await Company.findOne({ userId: req.user.id }).populate('enquiries')
+            const company = await Company.findOne({ userId: req.user.id }).populate({
+                path: 'enquiries',
+                populate: [
+                    { path: 'customerId', select: 'username email' }, // Populate customer fields
+                    { path: 'productId', select: ['productname','perUnitCost'] }
+                ]
+            })
             res.json({ user, company })
         } else {
             const customer = await User.findById(req.user.id)
@@ -171,22 +177,22 @@ userCtlr.listCompanies = async (req, res) => {
     }
 }
 
-userCtlr.findUser = async(req,res)=>{
+userCtlr.findUser = async (req, res) => {
     const body = req.body
-    try{
-        const user = await User.findByIdAndUpdate({_id:req.user.id},body,{new:true})
+    try {
+        const user = await User.findByIdAndUpdate({ _id: req.user.id }, body, { new: true })
         res.json(user)
-    }catch(e){
+    } catch (e) {
         res.status(500).json(e)
     }
 }
 
-userCtlr.getCompanyDetails = async(req,res) =>{
+userCtlr.getCompanyDetails = async (req, res) => {
     const id = req.params.id
-    try{
-        const company = await Company.findById({_id:id}).populate('products',['productname']).populate('categories',['name'])
+    try {
+        const company = await Company.findById({ _id: id }).populate('products', ['productname']).populate('categories', ['name'])
         res.json(company)
-    }catch(e){
+    } catch (e) {
         res.status(500).json(e)
     }
 }

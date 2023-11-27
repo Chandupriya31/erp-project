@@ -6,7 +6,7 @@ const quotationSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Enquiry'
    },
-   quantity:Number,
+   quantity: Number,
    unitPrice: Number,
    totalCost: Number,
    date: Date,
@@ -15,14 +15,14 @@ const quotationSchema = new Schema({
       delivery: String,
       isApproved: Boolean
    },
-   pdf: String,
-   product:{
-      type:Schema.Types.ObjectId,
+   // pdf: String,
+   product: {
+      type: Schema.Types.ObjectId,
       ref: 'Product'
    },
-   comments:[{
+   comments: [{
       type: Schema.Types.ObjectId,
-      ref:'Comment'
+      ref: 'Comment'
    }]
 }, { timestamps: true })
 

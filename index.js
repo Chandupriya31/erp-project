@@ -55,7 +55,7 @@ app.get('/api/users/list', authenticateUser, authorizeUser(['superAdmin']), user
 app.get('/api/companies/list', userCtlr.listCompanies)
 app.get('/api/getprofile', authenticateUser, userCtlr.getProfile)
 app.get('/api/company/:id',userCtlr.getCompanyDetails)
-
+    
 //category
 app.post('/api/categories', authenticateUser, authorizeUser(['companyAdmin']), checkSchema(categoryValidationSchema), categoryCltr.create)
 app.get('/api/categories/list', categoryCltr.list)

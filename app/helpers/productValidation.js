@@ -15,6 +15,14 @@ const productValidation = {
          errorMessage: 'description should not be empty'
       }
    },
+   perUnitCost: {
+      isNumeric: {
+         errorMessage: 'enter number'
+      },
+      notEmpty: {
+         errorMessage: 'enter cost of product'
+      }
+   },
    categoryId: {
       isMongoId: {
          errorMessage: 'should be a valid mongodb id'
