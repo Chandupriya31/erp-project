@@ -15,7 +15,7 @@ const quotationSchema = new Schema({
       delivery: String,
       isApproved: Boolean
    },
-   pdf: String,
+   // pdf: String,
    product:{
       type:Schema.Types.ObjectId,
       ref: 'Product'

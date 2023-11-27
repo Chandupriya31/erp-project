@@ -40,19 +40,18 @@ const deliverySchema = {
     }
 }
 
-const pdfSchema = {
-    notEmpty:{
-        errorMessage:'PDF url cannot be empty'
-    }
-}
+// const pdfSchema = {
+//     notEmpty:{
+//         errorMessage:'PDF url cannot be empty'
+//     }
+// }
 
 const quotationValidationSchema = {
     enquiry:enquirySchema,
     unitPrice:priceSchema,
     totalCost: priceSchema,
     quotationExpiry: expiryValidationSchema,
-    'termsandconditions.delivery':deliverySchema,
-    pdf:pdfSchema
+    'termsandconditions.delivery':deliverySchema
 }
 
 module.exports = quotationValidationSchema

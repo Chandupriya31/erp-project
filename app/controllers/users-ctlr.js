@@ -164,7 +164,7 @@ userCtlr.list = async (req, res) => {
 
 userCtlr.listCompanies = async (req, res) => {
     try {
-        const companies = await Company.find().populate('userId', ['username', 'email'])
+        const companies = await Company.find().populate('userId', ['username', 'email']).populate('products')
         res.json(companies)
     } catch (e) {
         res.status(500).json(e)
