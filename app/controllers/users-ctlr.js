@@ -142,22 +142,13 @@ userCtlr.getProfile = async (req, res) => {
     try {
         if (req.user.role == 'companyAdmin') {
             const user = await User.findById(req.user.id)
-            const company = await Company.findOne({ userId: req.user.id })
+            const company = await Company.findOne({ userId: req.user.id }).populate('enquiries')
             res.json({ user, company })
         } else {
             const customer = await User.findById(req.user.id)
             res.json(customer)
         }
     } catch (e) {
-        res.status(500).json(e)
-    }
-}
-
-userCtlr.getEnquiries = async(req,res)=>{
-    try{
-        const enquiries = await Company.findOne({userId:req.user.id}).populate('enquiries')
-        res.json(enquiries)
-    }catch(e){
         res.status(500).json(e)
     }
 }
@@ -190,5 +181,14 @@ userCtlr.findUser = async(req,res)=>{
     }
 }
 
+userCtlr.getCompanyDetails = async(req,res) =>{
+    const id = req.params.id
+    try{
+        const company = await Company.findById({_id:id}).populate('products',['productname']).populate('categories',['name'])
+        res.json(company)
+    }catch(e){
+        res.status(500).json(e)
+    }
+}
 
 module.exports = userCtlr

@@ -23,6 +23,8 @@ productCltr.create = async (req, res) => {
       body.image = images
       const product = new Product(body)
       await product.save()
+      const company = await Company.findOne({userId:req.user.id})
+      product.companyId = company._id
       await Company.findOneAndUpdate({ _id: product.companyId }, { $push: { products: product._id } })
       res.json(product)
    } catch (error) {

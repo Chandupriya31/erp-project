@@ -51,10 +51,10 @@ app.get('/api/users/verify/:token', userCtlr.verify)
 app.post('/api/company/register', checkSchema(companyRegisterSchema), userCtlr.companyRegister)
 app.post('/api/login', checkSchema(loginValidationSchema), userCtlr.login)
 app.put('/api/user/update',authenticateUser,userCtlr.findUser)
-app.get('/api/enquiries',authenticateUser,userCtlr.getEnquiries)
 app.get('/api/users/list', authenticateUser, authorizeUser(['superAdmin']), userCtlr.list)
 app.get('/api/companies/list', userCtlr.listCompanies)
 app.get('/api/getprofile', authenticateUser, userCtlr.getProfile)
+app.get('/api/company/:id',userCtlr.getCompanyDetails)
 
 //category
 app.post('/api/categories', authenticateUser, authorizeUser(['companyAdmin']), checkSchema(categoryValidationSchema), categoryCltr.create)
