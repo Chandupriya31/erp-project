@@ -63,10 +63,10 @@ userCtlr.verify = async (req, res) => {
             user.verified = !user.verified
             const verified = await user.save()
             if (verified) {
-                res.json({ msg: "Your account has been successfully verified" })
+                res.json("Thankyou for registering with us.... Your account has been successfully verified.Please login to continue" )
             }
         } else {
-            res.json({ msg: "Your account has already been verified." })
+            res.json({ msg: "Your account has already been verified....Please login to continue" })
         }
     } catch (e) {
         res.status(400).json(e)
@@ -171,11 +171,15 @@ userCtlr.listCompanies = async (req, res) => {
     }
 }
 
-// userCtlr.findCompany = async(req,res)=>{
-//     try{
-//         const company = await Company.findOne({userId:req.user.id})
-//     }catch(e){
-//         res.status(500).json(e)
-//     }
-// }
+userCtlr.findUser = async(req,res)=>{
+    const body = req.body
+    try{
+        const user = await User.findByIdAndUpdate({_id:req.user.id},body,{new:true})
+        res.json(user)
+    }catch(e){
+        res.status(500).json(e)
+    }
+}
+
+
 module.exports = userCtlr
