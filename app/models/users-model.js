@@ -28,13 +28,23 @@ const userSchema = new Schema({
         }
     },
 
-    myorders: {
+    myQuotations: {
         type: [{
             type: Schema.Types.ObjectId,
             ref: 'Quotation'
         }],
         default: function () {
             return this.role === 'customer' ? [] : undefined
+        }
+    },
+
+    myOrders:{
+        type: [{
+            type:Schema.Types.ObjectId,
+            ref:'OrderAcceptance'
+        }],
+        default: function(){
+            return this.role === 'customer'? []:undefined
         }
     },
 

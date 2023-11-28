@@ -14,7 +14,7 @@ quotationCtlr.create = async (req, res) => {
     quotation.date = new Date()
     try {
         await quotation.save()
-        await User.findOneAndUpdate({ myenquiries: quotation.enquiry }, { $push: { myorders: quotation._id } })
+        await User.findOneAndUpdate({ myenquiries: quotation.enquiry }, { $push: { myQuotations: quotation._id } })
         res.json(quotation)
     } catch (e) {
         res.status(500).json(e)
