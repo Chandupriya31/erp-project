@@ -10,7 +10,7 @@ quotationCtlr.create = async (req, res) => {
         return res.status(500).json({ errors: errors.array() })
     }
     const body = req.body
-    const user = await User.findOne({myenquiries:body.enquiry})
+    const user = await User.findOne({ myenquiries: body.enquiry })
     body.customer = user._id
     const quotation = new Quotation(body)
     quotation.date = new Date()
@@ -25,7 +25,7 @@ quotationCtlr.create = async (req, res) => {
 
 quotationCtlr.list = async (req, res) => {
     try {
-        const quotes = await Quotation.find().populate('enquiry').populate('customer',['username'])
+        const quotes = await Quotation.find().populate('enquiry').populate('customer', ['username']).populate('product', ['productname'])
         res.json(quotes)
     } catch (e) {
         res.status(500).json(e)
