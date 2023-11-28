@@ -13,11 +13,11 @@ const quotationSchema = new Schema({
    quotationExpiry: Date,
    termsandconditions: {
       delivery: String,
-      isApproved: Boolean
+      //isApproved: Boolean
    },
    // pdf: String,
-   product:{
-      type:Schema.Types.ObjectId,
+   product: {
+      type: Schema.Types.ObjectId,
       ref: 'Product'
    },
    comments: [{

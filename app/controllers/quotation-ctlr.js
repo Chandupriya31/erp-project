@@ -1,7 +1,7 @@
 const Quotation = require('../models/quotation-model')
 const _ = require('lodash')
 const { validationResult } = require('express-validator')
-
+const User = require('../models/users-model')
 const quotationCtlr = {}
 
 quotationCtlr.create = async (req, res) => {
@@ -14,7 +14,7 @@ quotationCtlr.create = async (req, res) => {
     quotation.date = new Date()
     try {
         await quotation.save()
-        await User.findOneAndUpdate({myenquiries:quotation.enquiry},{$push:{myorders:quotation._id}})
+        await User.findOneAndUpdate({ myenquiries: quotation.enquiry }, { $push: { myorders: quotation._id } })
         res.json(quotation)
     } catch (e) {
         res.status(500).json(e)

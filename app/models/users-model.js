@@ -10,7 +10,7 @@ const userSchema = new Schema({
         type: String,
         enum: ['superAdmin', 'companyAdmin', 'customer'],
         default: 'customer'
-    }, 
+    },
     verified: {
         type: Boolean,
         default: function () {
