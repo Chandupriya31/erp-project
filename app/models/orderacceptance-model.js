@@ -14,9 +14,9 @@ const orderSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Payment'
    },
-   customerId: { // New field to store the customer's ID
+   customerId: {
       type: Schema.Types.ObjectId,
-      ref: 'User' // Assuming User model holds customer information
+      ref: 'User' 
    },
    paymentStatus: {
       type: String,
