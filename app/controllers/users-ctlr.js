@@ -146,12 +146,31 @@ userCtlr.getProfile = async (req, res) => {
                 path: 'enquiries',
                 populate: [
                     { path: 'customerId', select: 'username email' }, // Populate customer fields
-                    { path: 'productId', select: ['productname','perUnitCost'] }
+                    { path: 'productId', select: ['productname', 'perUnitCost'] },
                 ]
             })
             res.json({ user, company })
         } else {
-            const customer = await User.findById(req.user.id)
+            const customer = await User.findOne({ _id: req.user.id })
+                .populate({
+                    path: 'myQuotations',
+                    populate: {
+                        path: 'enquiry',
+                        populate: {
+                            path: 'company'
+                        },
+                        populate: {
+                            path: 'productId'
+                        }
+                    }
+                })
+                .populate({
+                    path: 'myenquiries',
+                    populate: [
+                        { path: 'company' },
+                        { path: 'productId' }
+                    ]
+                })
             res.json(customer)
         }
     } catch (e) {
