@@ -75,6 +75,7 @@ app.get('/api/enquiries/list', authenticateUser, authorizeUser(['customer', 'com
 //quotation
 app.post('/api/quotation/create', authenticateUser, authorizeUser(['companyAdmin']), checkSchema(quotationValidationSchema), quotationCtlr.create)
 app.get('/api/quotations/list', authenticateUser, authorizeUser(['customer', 'companyAdmin']), quotationCtlr.list)
+app.get('/api/quotation/approve/:id',quotationCtlr.verify)
 
 //order-acceptance
 app.post('/api/orders/create', authenticateUser, authorizeUser(['companyAdmin']), checkSchema(orderValidation), orderAcceptanceCtlr.create)

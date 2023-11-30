@@ -17,7 +17,10 @@ const quotationSchema = new Schema({
    quotationExpiry: Date,
    termsandconditions: {
       delivery: String,
-      //isApproved: Boolean
+      isApproved:{ 
+         type:Boolean,
+         default:false
+      }
    },
    // pdf: String,
    product: {

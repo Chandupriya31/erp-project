@@ -69,7 +69,7 @@ userCtlr.verify = async (req, res) => {
             res.json({ msg: "Your account has already been verified....Please login to continue" })
         }
     } catch (e) {
-        res.status(400).json(e)
+        res.status(500).json(e)
     }
 }
 
@@ -134,7 +134,7 @@ userCtlr.login = async (req, res) => {
         )
         res.json({ token: token })
     } catch (e) {
-        res.status(500)
+        res.status(500).json(e)
     }
 }
 

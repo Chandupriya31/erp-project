@@ -3,6 +3,7 @@ const _ = require('lodash')
 const { validationResult } = require('express-validator')
 const User = require('../models/users-model')
 const quotationCtlr = {}
+const transporter = require('../config/nodemailer')
 
 quotationCtlr.create = async (req, res) => {
     const errors = validationResult(req)
@@ -17,6 +18,21 @@ quotationCtlr.create = async (req, res) => {
     try {
         await quotation.save()
         await User.findOneAndUpdate({ myenquiries: quotation.enquiry }, { $push: { myQuotations: quotation._id } })
+        const id = quotation._id
+        const verificationLink = `http://localhost:7777/api/quotation/approve/${id}`
+        const mailOptions = {
+            from: process.env.NODE_MAILER_MAIL, // Sender email
+            to: user.email || ('priyadavuluru@gmail.com' && "pavanat24official@gmail.com"),  // Newly registered user's email
+            subject: 'Order Confirmation',
+            html: `
+                <div><p>Hello,</p>
+                <p>Please Click on the link to confirm the quotation</p>
+                <a href="${verificationLink}">Confirm Order</a>
+                <p>Best regards,</p> 
+                </div>
+            `
+        }
+        await transporter.sendMail(mailOptions)
         res.json(quotation)
     } catch (e) {
         res.status(500).json(e)
@@ -27,6 +43,24 @@ quotationCtlr.list = async (req, res) => {
     try {
         const quotes = await Quotation.find().populate('enquiry').populate('customer', ['username']).populate('product', ['productname'])
         res.json(quotes)
+    } catch (e) {
+        res.status(500).json(e)
+    }
+}
+
+quotationCtlr.verify = async (req, res) => {
+    const id = req.params.id
+    try {
+        const quotation = await Quotation.findOneAndUpdate({ _id:id },{'termsandconditions.isApproved':true},{new:true})
+        if (quotation.termsandconditions.isApproved == false) {
+            quotation.termsandconditions.isApproved = !quotation.termsandconditions.isApproved
+            const approved = await Quotation.save()
+            if (approved) {
+                res.json(`Your order has been approved for the enquiry ${quotation.enquiry}`)
+            }
+        } else {
+            res.json({ msg: `Your order has already been approved for the enquiry ${quotation.enquiry}` })
+        }
     } catch (e) {
         res.status(500).json(e)
     }
