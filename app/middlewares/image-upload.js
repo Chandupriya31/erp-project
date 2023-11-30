@@ -15,7 +15,7 @@ async function uploadToS3(file) {
       Key: `${uuidv4()}-${file.originalname}`,
       Body: file.buffer
    }
-   console.log('here')
+   // console.log('here')
    const data = await s3.upload(params).promise();
    return { url: data.Location, key: data.Key };
 }

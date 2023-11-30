@@ -13,6 +13,10 @@ const productSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Category'
    },
+   bestSeller:{
+      type:Boolean,
+      default:false
+   },
    productWarranty: String,
    paymentTerms: String,
 })
