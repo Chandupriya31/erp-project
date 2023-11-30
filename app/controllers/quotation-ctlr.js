@@ -46,7 +46,7 @@ quotationCtlr.create = async (req, res) => {
 quotationCtlr.list = async (req, res) => {
     try {
         const company = await Company.findOne({userId:req.user.id})
-        const quotes = await Quotation.find({company:company._id})
+        const quotes = await Quotation.find({company:company._id}).populate('customer').populate('product')
         res.json(quotes)
     } catch (e) {
         res.status(500).json(e)
@@ -55,7 +55,7 @@ quotationCtlr.list = async (req, res) => {
 
 quotationCtlr.listMyQuotations = async(req,res)=>{
     try{
-        const myquotes = await Quotation.find({customer:req.user.id})
+        const myquotes = await Quotation.find({customer:req.user.id}).populate('customer').populate('product')
         res.json(myquotes)
     }catch(e){
         res.status(500).json(e)
