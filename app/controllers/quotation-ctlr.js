@@ -4,6 +4,7 @@ const { validationResult } = require('express-validator')
 const User = require('../models/users-model')
 const quotationCtlr = {}
 const transporter = require('../config/nodemailer')
+const Company = require('../models/company-model')
 
 quotationCtlr.create = async (req, res) => {
     const errors = validationResult(req)
@@ -15,9 +16,12 @@ quotationCtlr.create = async (req, res) => {
     body.customer = user._id
     const quotation = new Quotation(body)
     quotation.date = new Date()
+    const companyId = await Company.findOne({userId:req.user.id})
+    quotation.company = companyId._id
     try {
         await quotation.save()
         await User.findOneAndUpdate({ myenquiries: quotation.enquiry }, { $push: { myQuotations: quotation._id } })
+        await Company.findOneAndUpdate({userId:req.user.id},{$push:{quotations:quotation._id}})
         const id = quotation._id
         const verificationLink = `http://localhost:7777/api/quotation/approve/${id}`
         const mailOptions = {
@@ -41,9 +45,19 @@ quotationCtlr.create = async (req, res) => {
 
 quotationCtlr.list = async (req, res) => {
     try {
-        const quotes = await Quotation.find().populate('enquiry').populate('customer', ['username']).populate('product', ['productname'])
+        const company = await Company.findOne({userId:req.user.id})
+        const quotes = await Quotation.find({company:company._id})
         res.json(quotes)
     } catch (e) {
+        res.status(500).json(e)
+    }
+}
+
+quotationCtlr.listMyQuotations = async(req,res)=>{
+    try{
+        const myquotes = await Quotation.find({customer:req.user.id})
+        res.json(myquotes)
+    }catch(e){
         res.status(500).json(e)
     }
 }

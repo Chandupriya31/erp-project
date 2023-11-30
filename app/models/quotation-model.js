@@ -30,7 +30,11 @@ const quotationSchema = new Schema({
    comments: [{
       type: Schema.Types.ObjectId,
       ref: 'Comment'
-   }]
+   }],
+   company:{
+      type:Schema.Types.ObjectId,
+      ref:'Company'
+   }
 }, { timestamps: true })
 
 const Quotation = model('Quotation', quotationSchema)
