@@ -7,26 +7,6 @@ const orderValidation = {
          errorMessage: 'Quotation Id should be valid'
       }
    },
-   paymentStatus: {
-      notEmpty: {
-         errorMessage: 'payment status shouldnot be empty'
-      }
-   },
-   quality: {
-      notEmpty: {
-         errorMessage: "provide quality status"
-      }
-   },
-   orderAcceptance: {
-      notEmpty: {
-         errorMessage: 'order status required'
-      }
-   },
-   delivery: {
-      notEmpty: {
-         errorMessage: "delivery should not be empty"
-      }
-   },
    deliveryDate: {
       isDate: {
          errorMessage: 'Date should be in valid format',
@@ -54,12 +34,12 @@ const orderValidation = {
       notEmpty: {
          errorMessage: 'description required'
       }
-   },
-   'process.userId': {
-      isMongoId: {
-         errorMessage: 'enter valid id'
-      }
    }
+   // 'process.userId': {
+   //    isMongoId: {
+   //       errorMessage: 'enter valid id'
+   //    }
+   // }
 
 }
 

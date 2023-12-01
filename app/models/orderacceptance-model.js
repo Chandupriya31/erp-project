@@ -25,7 +25,7 @@ const orderSchema = new Schema({
    },
    orderAcceptance: {
       type: Boolean,
-      default: false
+      default: true
    },
    delivery: {
       type: String,
@@ -35,15 +35,15 @@ const orderSchema = new Schema({
    deliveryDate: Date,
    quality: {
       type: String,
-      enum: ['accecpt', 'reject']
+      enum: ['accept', 'reject']
    },
    process: {
       statusofProduct: String,
-      description: String,
-      userId: {
-         type: Schema.Types.ObjectId,
-         ref: 'User'
-      }
+      description: String
+      // userId: {
+      //    type: Schema.Types.ObjectId,
+      //    ref: 'User'
+      // }
    }
 })
 const OrderAcceptance = model('OrderAcceptance', orderSchema)

@@ -87,7 +87,7 @@ app.get('/api/orders/list', authenticateUser, authorizeUser(['customer']), order
 
 //payment
 app.post('/api/payment', authenticateUser, authorizeUser(['customer']), checkSchema(paymentValidation), paymentCtlr.create)
-app.put('/api/payment', authenticateUser, authorizeUser(['customer']), paymentCtlr.update)
+app.get('/api/payment/update/:id', authenticateUser, authorizeUser(['customer']), paymentCtlr.update)
 
 //comments
 app.post('/api/quotation/comments', authenticateUser, authorizeUser(['customer', 'companyAdmin']), commentsCtlr.create)

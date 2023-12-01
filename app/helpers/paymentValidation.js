@@ -21,7 +21,6 @@ const quotationSchema = {
 
 const paymentValidation = {
     type:paymenttypeSchema,
-    amount: amountSchema,
     quotation:quotationSchema
 }
 

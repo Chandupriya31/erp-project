@@ -5,6 +5,7 @@ const User = require('../models/users-model')
 const { validationResult } = require('express-validator')
 const transporter = require('../config/nodemailer')
 const cron = require('node-cron')
+const Quotation = require('../models/quotation-model')
 const orderAcceptanceCtlr = {}
 
 
@@ -35,10 +36,16 @@ orderAcceptanceCtlr.create = async (req, res) => {
    }
    const body = req.body
    const order = new OrderAcceptance(body)
+   const quotation = await Quotation.findById(order.quotationId)
+   const payment = await Payment.findOne({quotation:order.quotationId})
+   // console.log(payment)
+   order.paymentId = payment._id
+   order.customerId = payment.customer
+   order.productId = quotation.product
    order.date = new Date()
+   // order.process.userId = req.user.id
    try {
       await order.save()
-
       if (order.orderAcceptance) {
          const customer = await User.findById(order.customerId)
          const product = await Product.findById(order.productId)
