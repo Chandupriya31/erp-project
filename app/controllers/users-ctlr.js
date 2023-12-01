@@ -156,12 +156,11 @@ userCtlr.getProfile = async (req, res) => {
                     path: 'myQuotations',
                     populate: {
                         path: 'enquiry',
-                        populate: {
-                            path: 'company'
-                        },
-                        populate: {
-                            path: 'productId'
-                        }
+                        populate: [
+                            { path: 'company' },
+                            { path: 'productId' }
+                            // Add more populate calls if needed
+                        ]
                     }
                 })
                 .populate({

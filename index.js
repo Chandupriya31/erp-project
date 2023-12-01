@@ -50,12 +50,12 @@ app.post('/api/user/register', checkSchema(userRegisterSchema), userCtlr.userReg
 app.get('/api/users/verify/:token', userCtlr.verify)
 app.post('/api/company/register', checkSchema(companyRegisterSchema), userCtlr.companyRegister)
 app.post('/api/login', checkSchema(loginValidationSchema), userCtlr.login)
-app.put('/api/user/update',authenticateUser,userCtlr.findUser)
+app.put('/api/user/update', authenticateUser, userCtlr.findUser)
 app.get('/api/users/list', authenticateUser, authorizeUser(['superAdmin']), userCtlr.list)
 app.get('/api/companies/list', userCtlr.listCompanies)
 app.get('/api/getprofile', authenticateUser, userCtlr.getProfile)
-app.get('/api/company/:id',userCtlr.getCompanyDetails)
-    
+app.get('/api/company/:id', userCtlr.getCompanyDetails)
+
 //category
 app.post('/api/categories', authenticateUser, authorizeUser(['companyAdmin']), checkSchema(categoryValidationSchema), categoryCltr.create)
 app.get('/api/categories/list', categoryCltr.list)
@@ -64,7 +64,7 @@ app.get('/api/categories/list', categoryCltr.list)
 app.post('/api/products', upload.array('image'), authenticateUser, authorizeUser(['companyAdmin']), checkSchema(productValidation), productCltr.create)
 app.get('/api/products/list', productCltr.list)
 app.get('/api/:id/products', productCltr.category)
-app.get('/api/productdetails/:id',productCltr.find)
+app.get('/api/productdetails/:id', productCltr.find)
 app.delete('/api/products/:id', authenticateUser, authorizeUser(['companyAdmin']), productCltr.delete)
 // app.put('/api/products/update/:id', upload.array('image'), authenticateUser, productCltr.update)
 
@@ -75,8 +75,9 @@ app.get('/api/enquiries/list', authenticateUser, authorizeUser(['customer', 'com
 //quotation
 app.post('/api/quotation/create', authenticateUser, authorizeUser(['companyAdmin']), checkSchema(quotationValidationSchema), quotationCtlr.create)
 app.get('/api/quotations/list', authenticateUser, authorizeUser(['companyAdmin']), quotationCtlr.list)
-app.get('/api/quotations/user',authenticateUser,authorizeUser(['customer']),quotationCtlr.listMyQuotations)
-app.get('/api/quotation/approve/:id',quotationCtlr.verify)
+app.get('/api/quotations/user', authenticateUser, authorizeUser(['customer']), quotationCtlr.listMyQuotations)
+app.get('/api/quotation/approve/:id', quotationCtlr.verify)
+app.put('/api/quotation/isapproved/:id', quotationCtlr.update)
 
 //order-acceptance
 app.post('/api/orders/create', authenticateUser, authorizeUser(['companyAdmin']), checkSchema(orderValidation), orderAcceptanceCtlr.create)

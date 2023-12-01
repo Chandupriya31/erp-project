@@ -16,12 +16,12 @@ quotationCtlr.create = async (req, res) => {
     body.customer = user._id
     const quotation = new Quotation(body)
     quotation.date = new Date()
-    const companyId = await Company.findOne({userId:req.user.id})
+    const companyId = await Company.findOne({ userId: req.user.id })
     quotation.company = companyId._id
     try {
         await quotation.save()
         await User.findOneAndUpdate({ myenquiries: quotation.enquiry }, { $push: { myQuotations: quotation._id } })
-        await Company.findOneAndUpdate({userId:req.user.id},{$push:{quotations:quotation._id}})
+        await Company.findOneAndUpdate({ userId: req.user.id }, { $push: { quotations: quotation._id } })
         const id = quotation._id
         const verificationLink = `http://localhost:7777/api/quotation/approve/${id}`
         const mailOptions = {
@@ -45,19 +45,19 @@ quotationCtlr.create = async (req, res) => {
 
 quotationCtlr.list = async (req, res) => {
     try {
-        const company = await Company.findOne({userId:req.user.id})
-        const quotes = await Quotation.find({company:company._id}).populate('customer').populate('product')
+        const company = await Company.findOne({ userId: req.user.id })
+        const quotes = await Quotation.find({ company: company._id }).populate('customer').populate('product')
         res.json(quotes)
     } catch (e) {
         res.status(500).json(e)
     }
 }
 
-quotationCtlr.listMyQuotations = async(req,res)=>{
-    try{
-        const myquotes = await Quotation.find({customer:req.user.id}).populate('customer').populate('product')
+quotationCtlr.listMyQuotations = async (req, res) => {
+    try {
+        const myquotes = await Quotation.find({ customer: req.user.id }).populate('customer').populate('product')
         res.json(myquotes)
-    }catch(e){
+    } catch (e) {
         res.status(500).json(e)
     }
 }
@@ -65,7 +65,7 @@ quotationCtlr.listMyQuotations = async(req,res)=>{
 quotationCtlr.verify = async (req, res) => {
     const id = req.params.id
     try {
-        const quotation = await Quotation.findOneAndUpdate({ _id:id },{'termsandconditions.isApproved':true},{new:true})
+        const quotation = await Quotation.findOneAndUpdate({ _id: id }, { 'termsandconditions.isApproved': true }, { new: true })
         if (quotation.termsandconditions.isApproved == false) {
             quotation.termsandconditions.isApproved = !quotation.termsandconditions.isApproved
             const approved = await Quotation.save()
@@ -77,6 +77,17 @@ quotationCtlr.verify = async (req, res) => {
         }
     } catch (e) {
         res.status(500).json(e)
+    }
+}
+
+quotationCtlr.update = async (req, res) => {
+    const id = req.params.id
+    try {
+        const response = await Quotation.findOneAndUpdate({ _id: id }, { 'termsandconditions.isApproved': true }, { new: true })
+        res.json(response)
+    } catch (e) {
+        res.status(500)
+            .json(e)
     }
 }
 
