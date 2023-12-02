@@ -40,7 +40,7 @@ orderAcceptanceCtlr.create = async (req, res) => {
    const quotation = await Quotation.findById(order.quotationId)
    const payment = await Payment.findOne({quotation:order.quotationId})
    // console.log(payment)
-   order.paymentId = payment._id
+   order.paymentId = payment.transactionId
    order.customerId = payment.customer
    order.productId = quotation.product
    order.date = new Date()
@@ -52,8 +52,8 @@ orderAcceptanceCtlr.create = async (req, res) => {
          const product = await Product.findById(order.productId)
          const payment = await Payment.findById(order.paymentId)
          const deliveryDate = new Date(order.deliveryDate)
-         const notificationDate = new Date(deliveryDate)
-         notificationDate.setDate(deliveryDate.getDate() - 3)
+         // const notificationDate = new Date(deliveryDate)
+         // notificationDate.setDate(deliveryDate.getDate() - 3)
          // const cronExpression = `0 9 ${notificationDate.getDate() - 3} ${notificationDate.getMonth() + 1} *`;
          // console.log(cronExpression)
          if (customer && customer.email) {
