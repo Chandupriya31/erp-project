@@ -18,25 +18,12 @@ const orderSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'User'
    },
-   paymentStatus: {
-      type: String,
-      enum: ['pending', 'completed'],
-      default: 'pending'
-   },
-   orderAcceptance: {
-      type: Boolean,
-      default: true
-   },
    delivery: {
       type: String,
       enum: ['pending', 'deliverd'],
       default: 'pending'
    },
    deliveryDate: Date,
-   quality: {
-      type: String,
-      enum: ['accept', 'reject']
-   },
    process: {
       statusofProduct: String,
       description: String

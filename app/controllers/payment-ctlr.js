@@ -47,9 +47,18 @@ paymentCtlr.update = async (req, res) => {
     // console.log(id)
     try {
         const updatepayment = await Payment.findOneAndUpdate({ quotation:id} , {status: "successful" }, { new: true })
-        const updateOrderAcceptance = await OrderAcceptance.findOneAndUpdate({paymentId:updatepayment._id}, { paymentStatus: 'completed', paymentId: updatepayment._id, orderAcceptance: true }, { new: true })
-        res.json(updateOrderAcceptance)
+        res.json(updatepayment)
     } catch (e) {
+        res.status(500).json(e)
+    }
+}
+
+paymentCtlr.delete = async(req,res)=>{
+    const id = req.params.id
+    try{
+        const payment = await Payment.findOneAndDelete({transactionId:id})
+        res.json(payment)
+    }catch(e){
         res.status(500).json(e)
     }
 }
