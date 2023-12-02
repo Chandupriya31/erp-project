@@ -10,10 +10,7 @@ const orderSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Product'
    },
-   paymentId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Payment'
-   },
+   transactionId: String,
    customerId: {
       type: Schema.Types.ObjectId,
       ref: 'User' 
