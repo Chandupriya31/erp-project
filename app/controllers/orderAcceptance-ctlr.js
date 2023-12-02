@@ -40,7 +40,7 @@ orderAcceptanceCtlr.create = async (req, res) => {
    const quotation = await Quotation.findById(order.quotationId)
    const payment = await Payment.findOne({quotation:order.quotationId})
    // console.log(payment)
-   order.paymentId = payment.transactionId
+   order.transactionId = payment.transactionId
    order.customerId = payment.customer
    order.productId = quotation.product
    order.date = new Date()
