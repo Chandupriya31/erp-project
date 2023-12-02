@@ -14,7 +14,7 @@ paymentCtlr.create = async (req, res) => {
     // const body = _.pick(req.body,['amount','quotation'])
     const body = req.body
     const quote = await Quotation.findById({_id:body.quotation})
-    console.log(quote)
+    // console.log(quote)
     try {
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -29,8 +29,8 @@ paymentCtlr.create = async (req, res) => {
                 quantity: 1
             }],
             mode: 'payment',
-            success_url: 'http://localhost:5432/success',
-            cancel_url: 'http://localhost:5432/cancel'
+            success_url: `http://localhost:3000/quotation/payment?success=true`,
+            cancel_url: `http://localhost:3000/quotation/payment?cancel=true`
         })
         const payment = new Payment(body)
         payment.customer = req.user.id
@@ -44,7 +44,7 @@ paymentCtlr.create = async (req, res) => {
 
 paymentCtlr.update = async (req, res) => {
     const id = req.params.id
-    console.log(id)
+    // console.log(id)
     try {
         const updatepayment = await Payment.findOneAndUpdate({ quotation:id} , {status: "successful" }, { new: true })
         const updateOrderAcceptance = await OrderAcceptance.findOneAndUpdate({paymentId:updatepayment._id}, { paymentStatus: 'completed', paymentId: updatepayment._id, orderAcceptance: true }, { new: true })

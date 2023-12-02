@@ -6,6 +6,7 @@ const { validationResult } = require('express-validator')
 const transporter = require('../config/nodemailer')
 const cron = require('node-cron')
 const Quotation = require('../models/quotation-model')
+const Company = require('../models/company-model')
 const orderAcceptanceCtlr = {}
 
 
@@ -53,11 +54,9 @@ orderAcceptanceCtlr.create = async (req, res) => {
          const deliveryDate = new Date(order.deliveryDate)
          const notificationDate = new Date(deliveryDate)
          notificationDate.setDate(deliveryDate.getDate() - 3)
-         const cronExpression = `0 9 ${notificationDate.getDate() - 3} ${notificationDate.getMonth() + 1} *`;
-         console.log(cronExpression)
-         // console.log(payment)
+         // const cronExpression = `0 9 ${notificationDate.getDate() - 3} ${notificationDate.getMonth() + 1} *`;
+         // console.log(cronExpression)
          if (customer && customer.email) {
-            // console.log(customer.email)
             if (product) {
                if (payment) {
                   const mailOptions = {
@@ -70,29 +69,21 @@ orderAcceptanceCtlr.create = async (req, res) => {
                         your expected deliver date - "${new Date(order.deliveryDate).toLocaleDateString()}" <br/>
                         payment received - <i>transactionId</i> - ${payment.transactionId.slice(8)}<br/><br/><br/>
                         thanks and regards:-<br/>
-                        pavan and co.
+                        TXC and co.
                      </p > `
                   }
                   await transporter.sendMail(mailOptions)
-
-               } else {
-                  console.error('PaymentId not found:');
-                  return res.status(404).json({ message: 'PaymentId not found' });
-               }
-            } else {
-               console.error('Product not found for order ID:', order.productId);
-               return res.status(404).json({ message: 'Product not found' });
-            }
-         } else {
-            console.error('Customer not found or email not available');
-            return res.status(404).json({ message: 'Customer or email not found' });
-         }
-         cron.schedule(cronExpression, async () => {
-            await sendNotificationToAdmin(order)
-         }, {
-            timezone: 'Asia/Kolkata'
-         })
+               } 
+            } 
+         } 
+         // cron.schedule(cronExpression, async () => {
+         //    await sendNotificationToAdmin(order)
+         // }, {
+         //    timezone: 'Asia/Kolkata'
+         // })
       }
+      await User.findOneAndUpdate({_id:order.customerId},{$push:{myOrders:order._id}})
+      await Company.findOneAndUpdate({userId:req.user.id},{$push:{orders:order._id}})
       res.json(order)
    } catch (e) {
       res.status(500).json(e)
