@@ -92,20 +92,39 @@ orderAcceptanceCtlr.create = async (req, res) => {
 }
 orderAcceptanceCtlr.list = async (req, res) => {
    try {
-      const order = await OrderAcceptance.find().populate('productId').populate('customerId').populate('quotationId')
+      const order = await OrderAcceptance.find().populate({
+         path: 'productId'
+      })
+         .populate({
+            path: 'customerId',
+            populate: {
+               path: 'myQuotations'
+            }
+         })
+         .exec()
       res.json(order)
    } catch (e) {
       res.status(500).json(e)
    }
 }
 
-orderAcceptanceCtlr.update = async(req,res)=>{
-   const id = req.params.id
-   const body = req.body
-   try{
-      const order = await OrderAcceptance.findOneAndUpdate({_id:id},body,{new:true})
-      res.json(order)
-   }catch(e){
+orderAcceptanceCtlr.update = async (req, res) => {
+   const orderId = req.params.id
+   const { statusofProduct } = req.body;
+   try {
+      const updatedOrder = await OrderAcceptance.findByIdAndUpdate(orderId, { statusofProduct }, { new: true }).populate({
+         path: 'productId'
+      })
+         .populate({
+            path: 'customerId',
+            populate: {
+               path: 'myQuotations'
+            }
+         })
+         .exec()
+
+      res.json(updatedOrder);
+   } catch (e) {
       res.status(500).json(e)
    }
 }
