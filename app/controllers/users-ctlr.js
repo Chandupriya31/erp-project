@@ -148,13 +148,16 @@ userCtlr.getProfile = async (req, res) => {
         if (req.user.role == 'companyAdmin') {
             const user = await User.findById(req.user.id)
             const company = await Company.findOne({ userId: req.user.id }).populate({
-                path: 'enquiries orders',
+                path: 'enquiries',
                 populate: [
                     { path: 'customerId', select: 'username email' },
                     { path: 'productId', select: ['productname', 'perUnitCost'] },
                 ],
+            }).populate({
+                path: 'orders',
+                populate: { path: 'quotationId' }, // Populate 'quotationId' inside 'orders'
             })
-            res.json({ user, company, com })
+            res.json({ user, company })
         } else {
             const customer = await User.findOne({ _id: req.user.id })
                 .populate({
