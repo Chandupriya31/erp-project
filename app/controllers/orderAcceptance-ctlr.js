@@ -99,6 +99,17 @@ orderAcceptanceCtlr.list = async (req, res) => {
    }
 }
 
+orderAcceptanceCtlr.update = async(req,res)=>{
+   const id = req.params.id
+   const body = req.body
+   try{
+      const order = await OrderAcceptance.findOneAndUpdate({_id:id},body,{new:true})
+      res.json(order)
+   }catch(e){
+      res.status(500).json(e)
+   }
+}
+
 // // orderAcceptanceCtlr.notify = async (req, res) => {
 
 // // }

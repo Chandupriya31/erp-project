@@ -78,11 +78,12 @@ app.get('/api/quotations/list', authenticateUser, authorizeUser(['companyAdmin']
 app.get('/api/quotations/user', authenticateUser, authorizeUser(['customer']), quotationCtlr.listMyQuotations)
 app.get('/api/quotation/approve/:id', quotationCtlr.verify)
 app.put('/api/quotation/isapproved/:id', quotationCtlr.update)
+app.put('/api/quotation/:id',authenticateUser,authorizeUser(['companyAdmin']),quotationCtlr.updateQuote)
 
 //order-acceptance
 app.post('/api/orders/create', authenticateUser, authorizeUser(['companyAdmin']), checkSchema(orderValidation), orderAcceptanceCtlr.create)
 app.get('/api/orders/list', authenticateUser, authorizeUser(['customer', 'companyAdmin']), orderAcceptanceCtlr.list)
-
+app.put('/api/order/:id',authenticateUser,authorizeUser(['companyAdmin']),orderAcceptanceCtlr.update)
 //app.get('/api/notify', orderAcceptanceCtlr.notify)
 
 //payment
