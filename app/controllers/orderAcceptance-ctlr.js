@@ -92,7 +92,16 @@ orderAcceptanceCtlr.create = async (req, res) => {
 }
 orderAcceptanceCtlr.list = async (req, res) => {
    try {
-      const order = await OrderAcceptance.find().populate('productId').populate('customerId').populate('quotationId')
+      const order = await OrderAcceptance.find().populate({
+         path: 'productId'
+      })
+         .populate({
+            path: 'customerId',
+            populate: {
+               path: 'myQuotations'
+            }
+         })
+         .exec()
       res.json(order)
    } catch (e) {
       res.status(500).json(e)
