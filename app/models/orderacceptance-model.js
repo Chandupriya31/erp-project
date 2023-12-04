@@ -21,14 +21,7 @@ const orderSchema = new Schema({
       default: 'pending'
    },
    deliveryDate: Date,
-   process: {
-      statusofProduct: String,
-      description: String
-      // userId: {
-      //    type: Schema.Types.ObjectId,
-      //    ref: 'User'
-      // }
-   }
+   statusofProduct: String,
 })
 const OrderAcceptance = model('OrderAcceptance', orderSchema)
 

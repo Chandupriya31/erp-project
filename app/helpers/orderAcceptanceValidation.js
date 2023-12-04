@@ -25,16 +25,16 @@ const orderValidation = {
       }
    },
 
-   'process.statusofProduct': {
+   statusofProduct: {
       notEmpty: {
          errorMessage: 'process status required'
       }
    },
-   'process.description': {
-      notEmpty: {
-         errorMessage: 'description required'
-      }
-   }
+   // 'process.description': {
+   //    notEmpty: {
+   //       errorMessage: 'description required'
+   //    }
+   // }
    // 'process.userId': {
    //    isMongoId: {
    //       errorMessage: 'enter valid id'

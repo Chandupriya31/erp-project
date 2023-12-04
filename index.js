@@ -81,14 +81,14 @@ app.put('/api/quotation/isapproved/:id', quotationCtlr.update)
 
 //order-acceptance
 app.post('/api/orders/create', authenticateUser, authorizeUser(['companyAdmin']), checkSchema(orderValidation), orderAcceptanceCtlr.create)
-app.get('/api/orders/list', authenticateUser, authorizeUser(['customer']), orderAcceptanceCtlr.list)
+app.get('/api/orders/list', authenticateUser, authorizeUser(['customer', 'companyAdmin']), orderAcceptanceCtlr.list)
 
 //app.get('/api/notify', orderAcceptanceCtlr.notify)
 
 //payment
 app.post('/api/payment', authenticateUser, authorizeUser(['customer']), checkSchema(paymentValidation), paymentCtlr.create)
 app.get('/api/payment/update/:id', authenticateUser, authorizeUser(['customer']), paymentCtlr.update)
-app.delete('/api/payment/:id',authenticateUser,authorizeUser(['customer']),paymentCtlr.delete)
+app.delete('/api/payment/:id', authenticateUser, authorizeUser(['customer']), paymentCtlr.delete)
 
 //comments
 app.post('/api/quotation/comments', authenticateUser, authorizeUser(['customer', 'companyAdmin']), commentsCtlr.create)

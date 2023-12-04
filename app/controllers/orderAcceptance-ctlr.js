@@ -38,11 +38,11 @@ orderAcceptanceCtlr.create = async (req, res) => {
    const body = req.body
    const order = new OrderAcceptance(body)
    const quotation = await Quotation.findById(order.quotationId)
-   const payment = await Payment.findOne({quotation:order.quotationId})
+   const payment = await Payment.findOne({ quotation: order.quotationId })
    // console.log(payment)
    order.transactionId = payment.transactionId
    order.customerId = payment.customer
-   order.productId = quotation.product
+   order.productId = quotation.product//populate
    order.date = new Date()
    // order.process.userId = req.user.id
    try {
@@ -73,17 +73,17 @@ orderAcceptanceCtlr.create = async (req, res) => {
                      </p > `
                   }
                   await transporter.sendMail(mailOptions)
-               } 
-            } 
-         } 
+               }
+            }
+         }
          // cron.schedule(cronExpression, async () => {
          //    await sendNotificationToAdmin(order)
          // }, {
          //    timezone: 'Asia/Kolkata'
          // })
       }
-      await User.findOneAndUpdate({_id:order.customerId},{$push:{myOrders:order._id}})
-      await Company.findOneAndUpdate({userId:req.user.id},{$push:{orders:order._id}})
+      await User.findOneAndUpdate({ _id: order.customerId }, { $push: { myOrders: order._id } })
+      await Company.findOneAndUpdate({ userId: req.user.id }, { $push: { orders: order._id } })
       res.json(order)
    } catch (e) {
       res.status(500).json(e)
@@ -92,7 +92,7 @@ orderAcceptanceCtlr.create = async (req, res) => {
 }
 orderAcceptanceCtlr.list = async (req, res) => {
    try {
-      const order = await OrderAcceptance.find()
+      const order = await OrderAcceptance.find().populate('productId').populate('customerId').populate('quotationId')
       res.json(order)
    } catch (e) {
       res.status(500).json(e)

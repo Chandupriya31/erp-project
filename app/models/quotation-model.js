@@ -14,6 +14,7 @@ const quotationSchema = new Schema({
    unitPrice: Number,
    totalCost: Number,
    date: Date,
+   
    quotationExpiry: Date,
    termsandconditions: {
       delivery: String,
