@@ -17,7 +17,7 @@ enquiryCtlr.create = async(req,res)=>{
     enquiry.date = new Date()
     try{
         await enquiry.save()
-        await Company.findOneAndUpdate({$push:{enquiries: enquiry._id}})
+        await Company.findOneAndUpdate({products:enquiry.productId},{$push:{enquiries: enquiry._id}})
         await User.findOneAndUpdate({_id:enquiry.customerId},{$push:{myenquiries: enquiry._id}})
         res.json(enquiry)
     }catch(e){

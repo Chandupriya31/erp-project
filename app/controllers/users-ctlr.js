@@ -24,6 +24,9 @@ userCtlr.userRegister = async (req, res) => {
             user.role = 'superAdmin'
         }
         const usr = await user.save()
+        if(usr.role !== 'superAdmin'){
+            await User.findOneAndUpdate({role : 'superAdmin'},{$push:{customers:user._id}})
+        }
         if (usr) {
             const token = jwt.sign({ id: usr._id }, process.env.JWT_SECRET, { expiresIn: '7d' })
             //console.log(token)
@@ -99,7 +102,9 @@ userCtlr.companyRegister = async (req, res) => {
         const response = await axios.get(`https://api.geoapify.com/v1/geocode/search?text=${body1.contactdetails.address.name}&format=json&apiKey=ded62e99b09540618a5035ea72fa33ec`)
         company.contactdetails.address.lattitude = response.data.results[0].lat
         company.contactdetails.address.longitude = response.data.results[0].lon
-        //console.log(response.data)
+        if(user.role !== 'superAdmin'){
+            await User.findOneAndUpdate({role : 'superAdmin'},{$push:{users:user._id}})
+        }
         await company.save()
         res.json({ user, company })
     } catch (e) {
