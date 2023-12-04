@@ -14,20 +14,20 @@ const companySchema = new Schema({
         email: String
     },
     products: [{
-        type:Schema.Types.ObjectId,
-        ref:'Product'
+        type: Schema.Types.ObjectId,
+        ref: 'Product'
     }],
-    orders:[{
-        type:Schema.Types.ObjectId,
-        ref: "Company"
+    orders: [{
+        type: Schema.Types.ObjectId,
+        ref: "OrderAcceptance"
     }],
     customers: [{
-        type:Schema.Types.ObjectId,
-        ref:'User'
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }],
     categories: [{
-        type:Schema.Types.ObjectId,
-        ref:'Category'
+        type: Schema.Types.ObjectId,
+        ref: 'Category'
     }],
     companydetails: Schema.Types.ObjectId,
     isApproval: {
@@ -39,12 +39,12 @@ const companySchema = new Schema({
         ref: 'User'
     },
     enquiries: [{
-        type:Schema.Types.ObjectId,
-        ref:'Enquiry'
+        type: Schema.Types.ObjectId,
+        ref: 'Enquiry'
     }],
     quotations: [{
-        type:Schema.Types.ObjectId,
-        ref:'Quotation'
+        type: Schema.Types.ObjectId,
+        ref: 'Quotation'
     }],
     details: {
         vision: String,

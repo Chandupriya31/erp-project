@@ -24,8 +24,8 @@ userCtlr.userRegister = async (req, res) => {
             user.role = 'superAdmin'
         }
         const usr = await user.save()
-        if(usr.role !== 'superAdmin'){
-            await User.findOneAndUpdate({role : 'superAdmin'},{$push:{customers:user._id}})
+        if (usr.role !== 'superAdmin') {
+            await User.findOneAndUpdate({ role: 'superAdmin' }, { $push: { customers: user._id } })
         }
         if (usr) {
             const token = jwt.sign({ id: usr._id }, process.env.JWT_SECRET, { expiresIn: '7d' })
@@ -102,8 +102,8 @@ userCtlr.companyRegister = async (req, res) => {
         const response = await axios.get(`https://api.geoapify.com/v1/geocode/search?text=${body1.contactdetails.address.name}&format=json&apiKey=ded62e99b09540618a5035ea72fa33ec`)
         company.contactdetails.address.lattitude = response.data.results[0].lat
         company.contactdetails.address.longitude = response.data.results[0].lon
-        if(user.role !== 'superAdmin'){
-            await User.findOneAndUpdate({role : 'superAdmin'},{$push:{users:user._id}})
+        if (user.role !== 'superAdmin') {
+            await User.findOneAndUpdate({ role: 'superAdmin' }, { $push: { users: user._id } })
         }
         await company.save()
         res.json({ user, company })
@@ -148,13 +148,13 @@ userCtlr.getProfile = async (req, res) => {
         if (req.user.role == 'companyAdmin') {
             const user = await User.findById(req.user.id)
             const company = await Company.findOne({ userId: req.user.id }).populate({
-                path: 'enquiries',
+                path: 'enquiries orders',
                 populate: [
-                    { path: 'customerId', select: 'username email' }, // Populate customer fields
+                    { path: 'customerId', select: 'username email' },
                     { path: 'productId', select: ['productname', 'perUnitCost'] },
-                ]
+                ],
             })
-            res.json({ user, company })
+            res.json({ user, company, com })
         } else {
             const customer = await User.findOne({ _id: req.user.id })
                 .populate({
