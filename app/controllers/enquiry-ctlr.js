@@ -27,8 +27,16 @@ enquiryCtlr.create = async(req,res)=>{
 
 enquiryCtlr.list = async(req,res)=>{
     try{
-        const enquiries = await Enquiry.find()
-        res.json(enquiries)
+        if(req.user.role === 'companyAdmin'){
+            const company = await Company.findOne({userId:req.user.id})
+            const enquiries = await Enquiry.find({company:company._id}).populate('company').populate('customerId').populate('productId')
+            // console.log('enquiries',enquiries)
+            res.json(enquiries)
+        } else{
+            const enquiries = await Enquiry.find({customerId:req.user.id})
+            console.log('enquiry',enquiries)
+            res.json(enquiries)
+        }
     }
     catch(e){
         res.status(500).json(e)
