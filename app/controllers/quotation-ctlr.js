@@ -91,4 +91,15 @@ quotationCtlr.update = async (req, res) => {
     }
 }
 
+quotationCtlr.updateQuote = async(req,res)=>{
+    const id = req.params.id
+    const body = req.body
+    try{
+        const quotation = await Quotation.findByIdAndUpdate(id,body,{new:true})
+        res.json(quotation)
+    }catch(e){
+        res.status(500).json(e)
+    }
+}
+
 module.exports = quotationCtlr
