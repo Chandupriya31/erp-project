@@ -226,7 +226,7 @@ userCtlr.getCompanyDetails = async (req, res) => {
 userCtlr.updateCompany = async(req,res)=>{
     const body = req.body
     try{
-        const company = await Company.findOneAndUpdate({userId:req.userId},body,{new:true})
+        const company = await Company.findOneAndUpdate({userId:req.user.id},body,{new:true})
         res.json(company)
     }catch(e){
         res.status(500).json(e)
