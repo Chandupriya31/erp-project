@@ -170,7 +170,6 @@ userCtlr.getProfile = async (req, res) => {
                         populate: [
                             { path: 'company' },
                             { path: 'productId' }
-                            // Add more populate calls if needed
                         ]
                     }
                 })

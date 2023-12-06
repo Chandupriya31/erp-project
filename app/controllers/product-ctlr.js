@@ -3,6 +3,7 @@ const { uploadToS3 } = require('../middlewares/image-upload')
 const { validationResult } = require('express-validator')
 const _ = require('lodash')
 const Company = require('../models/company-model')
+const User = require('../models/users-model')
 const productCltr = {}
 
 productCltr.create = async (req, res) => {
@@ -78,6 +79,7 @@ productCltr.delete = async (req, res) => {
          return res.status(404).json({ error: 'product not found' })
       }
       await Product.findByIdAndDelete(productId)
+      await Company.findOneAndDelete({products:productId})
       res.status(200).json({ productExist, message: 'product deleted successfully' })
    } catch (error) {
       res.status(500).json({ error: 'internal server error' })
