@@ -155,7 +155,7 @@ userCtlr.getProfile = async (req, res) => {
                 ],
             }).populate({
                 path: 'orders',
-                populate: { path: 'quotationId' }, // Populate 'quotationId' inside 'orders'
+                populate: { path: 'quotationId' }
             })
             res.json({ user, company })
         } else {
@@ -167,7 +167,6 @@ userCtlr.getProfile = async (req, res) => {
                         populate: [
                             { path: 'company' },
                             { path: 'productId' }
-                            // Add more populate calls if needed
                         ]
                     }
                 })
