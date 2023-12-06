@@ -155,8 +155,11 @@ userCtlr.getProfile = async (req, res) => {
                 ],
             }).populate({
                 path: 'orders',
-                populate: { path: 'quotationId' }
-            })
+                populate: [
+                    { path: 'customerId', select: 'username' },
+                    { path: 'quotationId' }
+                ],
+            }).exec()
             res.json({ user, company })
         } else {
             const customer = await User.findOne({ _id: req.user.id })
