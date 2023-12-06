@@ -51,6 +51,7 @@ app.get('/api/users/verify/:token', userCtlr.verify)
 app.post('/api/company/register', checkSchema(companyRegisterSchema), userCtlr.companyRegister)
 app.post('/api/login', checkSchema(loginValidationSchema), userCtlr.login)
 app.put('/api/user/update', authenticateUser, userCtlr.findUser)
+app.put('/api/company/update',authenticateUser,userCtlr.updateCompany)
 app.get('/api/users/list', authenticateUser, authorizeUser(['superAdmin']), userCtlr.list)
 app.get('/api/companies/list', userCtlr.listCompanies)
 app.get('/api/getprofile', authenticateUser, userCtlr.getProfile)
@@ -74,8 +75,8 @@ app.get('/api/enquiries/list', authenticateUser, authorizeUser(['customer', 'com
 
 //quotation
 app.post('/api/quotation/create', authenticateUser, authorizeUser(['companyAdmin']), checkSchema(quotationValidationSchema), quotationCtlr.create)
-app.get('/api/quotations/list', authenticateUser, authorizeUser(['companyAdmin']), quotationCtlr.list)
-app.get('/api/quotations/user', authenticateUser, authorizeUser(['customer']), quotationCtlr.listMyQuotations)
+// app.get('/api/quotations/list', authenticateUser, authorizeUser(['companyAdmin']), quotationCtlr.list)
+app.get('/api/quotations/list', authenticateUser, authorizeUser(['companyAdmin','customer']), quotationCtlr.listMyQuotations)
 app.get('/api/quotation/approve/:id', quotationCtlr.verify)
 app.put('/api/quotation/isapproved/:id', quotationCtlr.update)
 app.put('/api/quotation/:id',authenticateUser,authorizeUser(['companyAdmin']),quotationCtlr.updateQuote)
@@ -93,7 +94,7 @@ app.delete('/api/payment/:id', authenticateUser, authorizeUser(['customer']), pa
 
 //comments
 app.post('/api/quotation/comments', authenticateUser, authorizeUser(['customer', 'companyAdmin']), commentsCtlr.create)
-app.get('/api/quotation/comments', authenticateUser, authorizeUser(['customer', 'companyAdmin']), commentsCtlr.list)
+app.get('/api/quotation/comments/:id', authenticateUser, authorizeUser(['customer', 'companyAdmin']), commentsCtlr.list)
 
 app.listen(port, () => {
     console.log('connected to port', port)

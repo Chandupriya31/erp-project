@@ -55,8 +55,14 @@ quotationCtlr.list = async (req, res) => {
 
 quotationCtlr.listMyQuotations = async (req, res) => {
     try {
-        const myquotes = await Quotation.find({ customer: req.user.id }).populate('customer').populate('product')
-        res.json(myquotes)
+        if(req.user.role === 'companyAdmin'){
+            const company = await Company.findOne({ userId: req.user.id })
+            const quotes = await Quotation.find({ company: company._id }).populate('customer').populate('product').populate('enquiry').populate('company').populate('comments')
+            res.json(quotes)
+        }else {
+            const myquotes = await Quotation.find({ customer: req.user.id }).populate('customer').populate('product').populate('enquiry').populate('company').populate('comments')
+            res.json(myquotes)
+        }
     } catch (e) {
         res.status(500).json(e)
     }
