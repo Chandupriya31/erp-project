@@ -3,7 +3,6 @@ const { uploadToS3 } = require('../middlewares/image-upload')
 const { validationResult } = require('express-validator')
 const _ = require('lodash')
 const Company = require('../models/company-model')
-const User = require('../models/users-model')
 const productCltr = {}
 
 productCltr.create = async (req, res) => {
@@ -72,19 +71,25 @@ productCltr.find = async(req,res)=>{
 }
 
 productCltr.delete = async (req, res) => {
-   const productId = req.params.id
+   const productId = req.params.id;
    try {
-      const productExist = await Product.findById(productId)
+      const productExist = await Product.findById(productId);
       if (!productExist) {
-         return res.status(404).json({ error: 'product not found' })
+         return res.status(404).json({ error: 'Product not found' });
       }
-      await Product.findByIdAndDelete(productId)
-      await Company.findOneAndDelete({products:productId})
-      res.status(200).json({ productExist, message: 'product deleted successfully' })
+      const company = await Company.findOne({ products: productId });
+      if (company) {
+         company.products = company.products.filter(id => id.toString() !== productId);
+         await company.save();
+      }
+      await Product.findByIdAndDelete(productId);
+      res.status(200).json({ message: 'Product deleted successfully' });
    } catch (error) {
-      res.status(500).json({ error: 'internal server error' })
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
    }
-}
+};
+
 
 // productCltr.update = async (req, res) => {
 //    const errors = validationResult(req)
