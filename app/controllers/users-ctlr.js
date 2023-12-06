@@ -181,6 +181,14 @@ userCtlr.getProfile = async (req, res) => {
                         { path: 'productId' }
                     ]
                 })
+                .populate({
+                    path: 'myOrders',
+                    populate: [
+                        { path: 'company' },
+                        { path: 'quotationId' },
+                        { path: 'productId' }
+                    ]
+                })
             res.json(customer)
         }
     } catch (e) {
@@ -226,12 +234,12 @@ userCtlr.getCompanyDetails = async (req, res) => {
     }
 }
 
-userCtlr.updateCompany = async(req,res)=>{
+userCtlr.updateCompany = async (req, res) => {
     const body = req.body
-    try{
-        const company = await Company.findOneAndUpdate({userId:req.user.id},body,{new:true})
+    try {
+        const company = await Company.findOneAndUpdate({ userId: req.user.id }, body, { new: true })
         res.json(company)
-    }catch(e){
+    } catch (e) {
         res.status(500).json(e)
     }
 }

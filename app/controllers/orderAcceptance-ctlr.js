@@ -39,7 +39,9 @@ orderAcceptanceCtlr.create = async (req, res) => {
    const order = new OrderAcceptance(body)
    const quotation = await Quotation.findById(order.quotationId)
    const payment = await Payment.findOne({ quotation: order.quotationId })
+   const company = await Company.findOne({ userId: req.user.id })
    // console.log(payment)
+   order.company = company._id
    order.transactionId = payment.transactionId
    order.customerId = payment.customer
    order.productId = quotation.product//populate
@@ -61,8 +63,8 @@ orderAcceptanceCtlr.create = async (req, res) => {
                if (payment) {
                   const mailOptions = {
                      from: process.env.NODE_MAILER_MAIL,
-                     to: customer.email,
-                     subject: 'Email Verification',
+                     to: customer.email && 'pn14016@gmail.com',
+                     subject: 'order acceptance',
                      html: `<p>
                      Dear ${customer.username}<br/>
                         your order for -"${product.productname}" has been accepted. <br/>

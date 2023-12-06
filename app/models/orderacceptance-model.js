@@ -20,6 +20,10 @@ const orderSchema = new Schema({
       enum: ['pending', 'deliverd'],
       default: 'pending'
    },
+   company: {
+      type: Schema.Types.ObjectId,
+      ref: 'Company'
+   },
    deliveryDate: Date,
    statusofProduct: String,
 })

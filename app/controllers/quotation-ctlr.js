@@ -26,7 +26,7 @@ quotationCtlr.create = async (req, res) => {
         const verificationLink = `http://localhost:7777/api/quotation/approve/${id}`
         const mailOptions = {
             from: process.env.NODE_MAILER_MAIL, // Sender email
-            to: user.email || ('priyadavuluru@gmail.com' && "pavanat24official@gmail.com"),  // Newly registered user's email
+            to: user.email && ('priyadavuluru@gmail.com' && "pavanat24official@gmail.com"),  // Newly registered user's email
             subject: 'Order Confirmation',
             html: `
                 <div><p>Hello,</p>
