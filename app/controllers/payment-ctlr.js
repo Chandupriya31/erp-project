@@ -29,8 +29,8 @@ paymentCtlr.create = async (req, res) => {
                 quantity: 1
             }],
             mode: 'payment',
-            success_url: `http://localhost:3000/quotation/payment?success=true`,
-            cancel_url: `http://localhost:3000/quotation/payment?cancel=true`
+            success_url: `https://tradexchange.onrender.com/quotation/payment?success=true`,
+            cancel_url: `https://tradexchange.onrender.com/quotation/payment?cancel=true`
         })
         const payment = new Payment(body)
         payment.customer = req.user.id
