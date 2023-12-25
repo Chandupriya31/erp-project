@@ -34,7 +34,7 @@ enquiryCtlr.list = async(req,res)=>{
             res.json(enquiries)
         } else{
             const enquiries = await Enquiry.find({customerId:req.user.id})
-            console.log('enquiry',enquiries)
+            // console.log('enquiry',enquiries)
             res.json(enquiries)
         }
     }

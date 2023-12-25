@@ -4,7 +4,7 @@ const configDB = async()=>{
     const name = process.env.DB_NAME || 'erp-backend'
     try {
         await mongoose.connect(`${url}/${name}`)
-        console.log('connected to db',name)
+        console.log('connected to db')
     }catch(e){
         console.log(e.message)
     }

@@ -24,7 +24,7 @@ const sendNotificationToAdmin = async (order) => {
          html: `<p>The delivery for product "${product.productname}" (ID: ${order.productId}) is scheduled on ${new Date(order.deliveryDate).toLocaleDateString()}.</p>`
       };
       const info = await transporter.sendMail(mailOptions);
-      console.log('Email sent: ' + info.response);
+      // console.log('Email sent: ' + info.response);
    } catch (error) {
       console.error('Error sending email:', error);
    }
