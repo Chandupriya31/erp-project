@@ -29,8 +29,8 @@ paymentCtlr.create = async (req, res) => {
                 quantity: 1
             }],
             mode: 'payment',
-            success_url: 'https://trade-x-change-frontend.vercel.app/quotation/payment?success=true',//`http://localhost:3000/quotation/payment?success=true`,
-            cancel_url: 'https://trade-x-change-frontend.vercel.app/quotation/payment?cancel=true' //`http://localhost:3000/quotation/payment?cancel=true`
+            success_url: 'http://localhost:3000/quotation/payment?success=true',
+            cancel_url: 'http://localhost:3000/quotation/payment?cancel=true'
         })
         const payment  = new Payment(body)
         payment.customer = req.user.id
