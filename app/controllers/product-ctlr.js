@@ -21,18 +21,18 @@ productCltr.create = async (req, res) => {
          //console.log(upload)
       }
       body.image = images
-      const company = await Company.findOne({userId:req.user.id})
+      const company = await Company.findOne({ userId: req.user.id })
       body.companyId = company._id
       const product = new Product(body)
       await product.save()
       const totalBestsellers = await Product.countDocuments({ bestSeller: true })
-      if(totalBestsellers>3){
+      if (totalBestsellers > 3) {
          product.bestSeller = false
       }
       if (!company) {
          return res.status(404).json({ error: "Company not found for the given userId" });
       }
-      
+
       await Company.findOneAndUpdate({ _id: product.companyId }, { $push: { products: product._id } })
       res.json(product)
    } catch (error) {
@@ -60,12 +60,12 @@ productCltr.category = async (req, res) => {
    }
 }
 
-productCltr.find = async(req,res)=>{
+productCltr.find = async (req, res) => {
    const id = req.params.id
-   try{
-      const product = await Product.findById(id).populate('companyId',['companyname'])
+   try {
+      const product = await Product.findById(id).populate('companyId', ['companyname'])
       res.json(product)
-   }catch(e){
+   } catch (e) {
       res.status(500).json(e)
    }
 }
@@ -151,9 +151,11 @@ productCltr.delete = async (req, res) => {
 //       product.save()
 //       res.json(product)
 
-//    } catch (e) {  
+//    } catch (e) {
 //       res.status(500).json(e)
 //    }
 // }
+
+
 
 module.exports = productCltr

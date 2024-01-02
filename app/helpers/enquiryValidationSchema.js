@@ -14,12 +14,12 @@ const quantitySchema = {
     isNumeric: {
         errorMessage: 'Quantity should be numeric'
     },
-    custom:{
-        options:(value)=>{
-            if(value <=0){
+    custom: {
+        options: (value) => {
+            if (value <= 0) {
                 throw new Error('quantity should be greater than zero')
             }
-            else{
+            else {
                 return true
             }
         }

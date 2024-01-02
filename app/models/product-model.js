@@ -7,15 +7,15 @@ const productSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Company'
    },
-   perUnitCost:Number,
+   perUnitCost: Number,
    image: [{ url: String, key: String }],
    categoryId: {
       type: Schema.Types.ObjectId,
       ref: 'Category'
    },
-   bestSeller:{
-      type:Boolean,
-      default:false
+   bestSeller: {
+      type: Boolean,
+      default: false
    },
    productWarranty: String,
    paymentTerms: String,

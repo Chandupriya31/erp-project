@@ -6,21 +6,25 @@ const quotationSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Enquiry'
    },
-   customer:{
-      type:Schema.Types.ObjectId,
-      ref:'User'
+   customer: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+   },
+   company: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
    },
    quantity: Number,
    unitPrice: Number,
    totalCost: Number,
    date: Date,
-   
+
    quotationExpiry: Date,
    termsandconditions: {
       delivery: String,
-      isApproved:{ 
-         type:Boolean,
-         default:false
+      isApproved: {
+         type: Boolean,
+         default: false
       }
    },
    // pdf: String,
@@ -32,9 +36,9 @@ const quotationSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Comment'
    }],
-   company:{
-      type:Schema.Types.ObjectId,
-      ref:'Company'
+   company: {
+      type: Schema.Types.ObjectId,
+      ref: 'Company'
    }
 }, { timestamps: true })
 
