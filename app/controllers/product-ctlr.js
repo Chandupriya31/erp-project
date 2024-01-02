@@ -43,8 +43,14 @@ productCltr.create = async (req, res) => {
 
 productCltr.list = async (req, res) => {
    try {
-      const product = await Product.find()
-      res.json(product)
+      const page = parseInt(req.query.page) || 1
+      const pageSize = 6
+      const skip = (page - 1) * pageSize
+
+      const products = await Product.find().skip(skip).limit(pageSize)
+      const totalProducts = await Product.countDocuments()
+      const totalPages = Math.ceil(totalProducts / pageSize)
+      res.json({products,totalPages,currentPage: page})
    } catch (e) {
       res.status(500).json(e)
    }
