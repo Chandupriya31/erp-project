@@ -54,7 +54,7 @@ const passwordSchema = {
             minSymbols: 1,
             max: 128
         },
-        errorMessage: 'Entered password is not a strong password'
+        errorMessage: 'Entered password is not a strong password should contain- lowercase:1 uppercase:1 number:1 specialCharacter:1'
     }
 }
 const loginValidationSchema = {
