@@ -3,7 +3,6 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 app.use(express.json())
-const cron = require('node-cron')
 app.use(cors())
 const configDB = require('./app/config/db')
 const userCtlr = require('./app/controllers/users-ctlr')
@@ -51,7 +50,7 @@ app.get('/api/users/verify/:token', userCtlr.verify)
 app.post('/api/company/register', checkSchema(companyRegisterSchema), userCtlr.companyRegister)
 app.post('/api/login', checkSchema(loginValidationSchema), userCtlr.login)
 app.put('/api/user/update', authenticateUser, userCtlr.findUser)
-app.put('/api/company/update',authenticateUser,userCtlr.updateCompany)
+app.put('/api/company/update', authenticateUser, userCtlr.updateCompany)
 app.get('/api/users/list', authenticateUser, authorizeUser(['superAdmin']), userCtlr.list)
 app.get('/api/companies/list', userCtlr.listCompanies)
 app.get('/api/getprofile', authenticateUser, userCtlr.getProfile)
@@ -76,15 +75,17 @@ app.get('/api/enquiries/list', authenticateUser, authorizeUser(['customer', 'com
 //quotation
 app.post('/api/quotation/create', authenticateUser, authorizeUser(['companyAdmin']), checkSchema(quotationValidationSchema), quotationCtlr.create)
 // app.get('/api/quotations/list', authenticateUser, authorizeUser(['companyAdmin']), quotationCtlr.list)
-app.get('/api/quotations/list', authenticateUser, authorizeUser(['companyAdmin','customer']), quotationCtlr.listMyQuotations)
+app.get('/api/quotations/list', authenticateUser, authorizeUser(['companyAdmin', 'customer']), quotationCtlr.listMyQuotations)
 app.get('/api/quotation/approve/:id', quotationCtlr.verify)
 app.put('/api/quotation/isapproved/:id', quotationCtlr.update)
-app.put('/api/quotation/:id',authenticateUser,authorizeUser(['companyAdmin']),quotationCtlr.updateQuote)
+app.put('/api/quotation/:id', authenticateUser, authorizeUser(['companyAdmin']), quotationCtlr.updateQuote)
+// Add this route in your express application
+    app.get('/api/quotation/search', authenticateUser ,quotationCtlr.search)
 
 //order-acceptance
 app.post('/api/orders/create', authenticateUser, authorizeUser(['companyAdmin']), checkSchema(orderValidation), orderAcceptanceCtlr.create)
 app.get('/api/orders/list', authenticateUser, authorizeUser(['customer', 'companyAdmin']), orderAcceptanceCtlr.list)
-app.put('/api/order/:id',authenticateUser,authorizeUser(['companyAdmin']),orderAcceptanceCtlr.update)
+app.put('/api/order/:id', authenticateUser, authorizeUser(['companyAdmin']), orderAcceptanceCtlr.update)
 //app.get('/api/notify', orderAcceptanceCtlr.notify)
 
 //payment

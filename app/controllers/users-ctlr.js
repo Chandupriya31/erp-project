@@ -4,7 +4,6 @@ const { validationResult } = require('express-validator')
 const bcrypt = require('bcryptjs')
 const axios = require('axios')
 const _ = require('lodash')
-const uuid = require('uuid')
 const jwt = require('jsonwebtoken')
 const transporter = require('../config/nodemailer')
 const userCtlr = {}
@@ -49,7 +48,6 @@ userCtlr.userRegister = async (req, res) => {
                 msg: `${usr.username}, Please Verify your email send to your email address to access your account`
             })
         }
-
     } catch (e) {
         res.status(500).json(e)
     }
@@ -85,7 +83,6 @@ userCtlr.companyRegister = async (req, res) => {
         const body = req.body
         const user = new User(body)
         const body1 = req.body
-        //const address = await 
 
         const salt = await bcrypt.genSalt()
         user.password = await bcrypt.hash(user.password, salt)

@@ -55,11 +55,11 @@ quotationCtlr.list = async (req, res) => {
 
 quotationCtlr.listMyQuotations = async (req, res) => {
     try {
-        if(req.user.role === 'companyAdmin'){
+        if (req.user.role === 'companyAdmin') {
             const company = await Company.findOne({ userId: req.user.id })
             const quotes = await Quotation.find({ company: company._id }).populate('customer').populate('product').populate('enquiry').populate('company').populate('comments')
             res.json(quotes)
-        }else {
+        } else {
             const myquotes = await Quotation.find({ customer: req.user.id }).populate('customer').populate('product').populate('enquiry').populate('company').populate('comments')
             res.json(myquotes)
         }
@@ -97,15 +97,38 @@ quotationCtlr.update = async (req, res) => {
     }
 }
 
-quotationCtlr.updateQuote = async(req,res)=>{
+quotationCtlr.updateQuote = async (req, res) => {
     const id = req.params.id
     const body = req.body
-    try{
-        const quotation = await Quotation.findByIdAndUpdate(id,body,{new:true})
+    try {
+        const quotation = await Quotation.findByIdAndUpdate(id, body, { new: true })
         res.json(quotation)
-    }catch(e){
+    } catch (e) {
         res.status(500).json(e)
     }
 }
+
+quotationCtlr.search = async (req, res) => {
+    const companyId = req.user.id
+    const productName = req.query.productName
+
+    try {
+        const company = await Company.findOne({ userId: companyId })
+        const searched = await Quotation.find({ company: company._id })
+            .populate('product').populate('enquiry').populate('customer')
+
+        const searchFilter = searched.filter((quotation) => {
+            return (
+                quotation?.product?.productname.toLowerCase().includes(productName.toLowerCase())
+            )
+        })
+        res.json(searchFilter)
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
+
+
+
 
 module.exports = quotationCtlr
