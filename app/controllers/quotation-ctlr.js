@@ -128,7 +128,33 @@ quotationCtlr.search = async (req, res) => {
     }
 }
 
-
-
+quotationCtlr.sortData = async (req, res) => {
+    const { sortOrder } = req.body;
+    try {
+        const findCompany = await Company.findOne({ userId: req.user.id })
+        let sortValue = 0
+        if(sortOrder==='asc'){
+            sortValue = 1
+        }
+        if (sortOrder === 'desc') {
+            sortValue = -1
+        }
+        const data = await Quotation.aggregate([
+            {
+                $match: {
+                    company: findCompany._id
+                }
+            },{
+                $sort: {
+                    date: sortValue
+                }
+            }
+        ])
+            res.json(data)
+    
+    } catch (e) {
+        res.status(500).json(e)
+    }
+}
 
 module.exports = quotationCtlr

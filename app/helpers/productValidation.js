@@ -31,7 +31,6 @@ const productValidation = {
    image: {
       custom: {
          options: (value, { req }) => {
-            //console.log(req, 'v')
             if (isEmpty(req.files)) {
                throw new Error('image file is required');
             }
