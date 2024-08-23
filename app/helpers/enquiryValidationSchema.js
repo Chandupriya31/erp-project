@@ -27,7 +27,7 @@ const quantitySchema = {
 }
 
 const enquiryValidationSchema = {
-    productId: productSchema,
+    product_id: productSchema,
     quantity: quantitySchema
 }
 

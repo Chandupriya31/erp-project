@@ -3,22 +3,20 @@ const { model, Schema } = require('mongoose')
 const productSchema = new Schema({
    productname: String,
    description: String,
-   companyId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Company'
+   company_id: {
+      type: Schema.Types.ObjectId
    },
    perUnitCost: Number,
    image: [{ url: String, key: String }],
-   categoryId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Category'
+   category_id: {
+      type: Schema.Types.ObjectId
    },
-   bestSeller: {
+   best_seller: {
       type: Boolean,
       default: false
    },
-   productWarranty: String,
-   paymentTerms: String,
+   product_warranty: String,
+   payment_terms: String,
 })
 
 const Product = model('Product', productSchema)

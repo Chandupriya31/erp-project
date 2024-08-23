@@ -18,7 +18,7 @@ const userSchema = new Schema({
         }
     },
 
-    myenquiries: {
+    my_enquiries: {
         type: [{
             type: Schema.Types.ObjectId,
             ref: 'Enquiry'
@@ -28,7 +28,7 @@ const userSchema = new Schema({
         }
     },
 
-    myQuotations: {
+    my_quotations: {
         type: [{
             type: Schema.Types.ObjectId,
             ref: 'Quotation'
@@ -38,7 +38,7 @@ const userSchema = new Schema({
         }
     },
 
-    myOrders: {
+    my_orders: {
         type: [{
             type: Schema.Types.ObjectId,
             ref: 'OrderAcceptance'

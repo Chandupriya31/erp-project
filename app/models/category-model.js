@@ -2,9 +2,8 @@ const { Schema, model } = require('mongoose')
 
 const categorySchema = new Schema({
    name: String,
-   companyId: {
+   company_id: {
       type: Schema.Types.ObjectId,
-      ref: 'Company'
    }
 })
 

@@ -45,9 +45,9 @@ const deliverySchema = {
 
 const quotationValidationSchema = {
     enquiry: enquirySchema,
-    unitPrice: priceSchema,
-    totalCost: priceSchema,
-    quotationExpiry: expiryValidationSchema,
+    unit_price: priceSchema,
+    total_cost: priceSchema,
+    quotation_expiry: expiryValidationSchema,
     'termsandconditions.delivery': deliverySchema
 }
 

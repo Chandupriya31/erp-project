@@ -8,7 +8,7 @@ const categoryValidationSchema = {
          options: async (value) => {
             const catergory = await Category.findOne({ name: { '$regex': value, $options: 'i' } })
             if (catergory) {
-               throw new Error('category already exists..!')
+               throw new Error('category already exists!')
             } else {
                return true
             }

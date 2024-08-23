@@ -14,7 +14,7 @@ paymentCtlr.create = async (req, res) => {
     }
     // const body = _.pick(req.body,['amount','quotation'])
     const body = req.body
-    const quote = await Quotation.findById({_id:body.quotation})
+    const quote = await Quotation.findById({ _id: body.quotation })
     // console.log(quote)
     try {
         const session = await stripe.checkout.sessions.create({
@@ -25,7 +25,7 @@ paymentCtlr.create = async (req, res) => {
                     product_data: {
                         name: "Buying product",
                     },
-                    unit_amount: quote.totalCost * 100,
+                    unit_amount: quote.total_cost * 100,
                 },
                 quantity: 1
             }],
@@ -33,9 +33,9 @@ paymentCtlr.create = async (req, res) => {
             success_url: 'http://localhost:3000/quotation/payment?success=true',
             cancel_url: 'http://localhost:3000/quotation/payment?cancel=true'
         })
-        const payment  = new Payment(body)
+        const payment = new Payment(body)
         payment.customer = req.user.id
-        payment.transactionId = session.id
+        payment.transaction_id = session.id
         await payment.save()
         res.json({ id: session.id, url: session.url })
     } catch (e) {
@@ -47,19 +47,19 @@ paymentCtlr.update = async (req, res) => {
     const id = req.params.id
     // console.log(id)
     try {
-        const updatepayment = await Payment.findOneAndUpdate({ quotation:id} , {status: "successful" }, { new: true })
+        const updatepayment = await Payment.findOneAndUpdate({ quotation: id }, { status: "successful" }, { new: true })
         res.json(updatepayment)
     } catch (e) {
         res.status(500).json(e)
     }
 }
 
-paymentCtlr.delete = async(req,res)=>{
+paymentCtlr.delete = async (req, res) => {
     const id = req.params.id
-    try{
-        const payment = await Payment.findOneAndDelete({transactionId:id})
+    try {
+        const payment = await Payment.findOneAndDelete({ transaction_id: id })
         res.json(payment)
-    }catch(e){
+    } catch (e) {
         res.status(500).json(e)
     }
 }

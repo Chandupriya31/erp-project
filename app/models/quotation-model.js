@@ -4,22 +4,19 @@ const { Schema, model } = mongoose
 const quotationSchema = new Schema({
    enquiry: {
       type: Schema.Types.ObjectId,
-      ref: 'Enquiry'
    },
    customer: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
    },
    company: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
    },
    quantity: Number,
-   unitPrice: Number,
-   totalCost: Number,
+   unit_price: Number,
+   total_cost: Number,
    date: Date,
 
-   quotationExpiry: Date,
+   quotation_expiry: Date,
    termsandconditions: {
       delivery: String,
       isApproved: {
@@ -30,15 +27,12 @@ const quotationSchema = new Schema({
    // pdf: String,
    product: {
       type: Schema.Types.ObjectId,
-      ref: 'Product'
    },
    comments: [{
       type: Schema.Types.ObjectId,
-      ref: 'Comment'
    }],
    company: {
       type: Schema.Types.ObjectId,
-      ref: 'Company'
    }
 }, { timestamps: true })
 

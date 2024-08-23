@@ -23,7 +23,7 @@ const productValidation = {
          errorMessage: 'enter cost of product'
       }
    },
-   categoryId: {
+   category_id: {
       isMongoId: {
          errorMessage: 'should be a valid mongodb id'
       }
@@ -38,12 +38,12 @@ const productValidation = {
          }
       }
    },
-   productWarranty: {
+   product_warranty: {
       notEmpty: {
          errorMessage: 'product warrenty required'
       }
    },
-   paymentTerms: {
+   payment_terms: {
       notEmpty: {
          errorMessage: 'mention payment terms'
       }

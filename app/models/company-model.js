@@ -15,36 +15,29 @@ const companySchema = new Schema({
     },
     products: [{
         type: Schema.Types.ObjectId,
-        ref: 'Product'
     }],
     orders: [{
         type: Schema.Types.ObjectId,
-        ref: "OrderAcceptance"
     }],
     customers: [{
         type: Schema.Types.ObjectId,
-        ref: 'User'
     }],
     categories: [{
         type: Schema.Types.ObjectId,
-        ref: 'Category'
     }],
     companydetails: Schema.Types.ObjectId,
-    isApproval: {
+    is_approval: {
         type: Boolean,
         default: false
     },
-    userId: {
+    user_id: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
     },
     enquiries: [{
         type: Schema.Types.ObjectId,
-        ref: 'Enquiry'
     }],
     quotations: [{
         type: Schema.Types.ObjectId,
-        ref: 'Quotation'
     }],
     details: {
         vision: String,
