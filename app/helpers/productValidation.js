@@ -15,7 +15,7 @@ const productValidation = {
          errorMessage: 'description should not be empty'
       }
    },
-   perUnitCost: {
+   per_unit_cost: {
       isNumeric: {
          errorMessage: 'enter number'
       },

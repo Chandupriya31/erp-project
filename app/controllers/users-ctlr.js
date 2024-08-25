@@ -148,7 +148,7 @@ userCtlr.getProfile = async (req, res) => {
                 path: 'enquiries',
                 populate: [
                     { path: 'customer_id', select: 'username email' },
-                    { path: 'product_id', select: ['productname', 'perUnitCost'] },
+                    { path: 'product_id', select: ['productname', 'per_unit_cost'] },
                 ],
             }).populate({
                 path: 'orders',
