@@ -2,15 +2,17 @@ const mongoose = require('mongoose')
 const { Schema, model } = mongoose
 
 const enquirySchema = new Schema({
-    product_id: {
+    productId: {
         type: Schema.Types.ObjectId,
     },
-    phno: Number,
-    customer_id: {
+    phNo: Number,
+    customerId: {
         type: Schema.Types.ObjectId,
+        ref: 'User'
     },
     company: {
         type: Schema.Types.ObjectId,
+        ref: 'Company'
     },
     quantity: Number,
     date: Date

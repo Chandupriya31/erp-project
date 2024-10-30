@@ -7,16 +7,18 @@ const quotationSchema = new Schema({
    },
    customer: {
       type: Schema.Types.ObjectId,
+      ref: 'User'
    },
    company: {
       type: Schema.Types.ObjectId,
+      ref: 'User'
    },
    quantity: Number,
-   unit_price: Number,
-   total_cost: Number,
+   unitPrice: Number,
+   totalCost: Number,
    date: Date,
 
-   quotation_expiry: Date,
+   quotationExpiry: Date,
    termsandconditions: {
       delivery: String,
       isApproved: {
@@ -27,12 +29,15 @@ const quotationSchema = new Schema({
    // pdf: String,
    product: {
       type: Schema.Types.ObjectId,
+      ref: 'Product'
    },
    comments: [{
       type: Schema.Types.ObjectId,
+      ref: 'Comment'
    }],
    company: {
       type: Schema.Types.ObjectId,
+      ref: 'Company'
    }
 }, { timestamps: true })
 

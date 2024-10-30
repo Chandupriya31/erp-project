@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose')
 
 const categorySchema = new Schema({
    name: String,
-   company_id: {
+   companyId: {
       type: Schema.Types.ObjectId,
    }
 })

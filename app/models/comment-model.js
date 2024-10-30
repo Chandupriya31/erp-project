@@ -2,10 +2,10 @@ const { model, Schema } = require('mongoose')
 
 const commentSchema = new Schema({
    content: String,
-   user_id: {
+   userId: {
       type: Schema.Types.ObjectId,
    },
-   quotation_id: {
+   quotationId: {
       type: Schema.Types.ObjectId,
    }
 }, { timestamps: true })

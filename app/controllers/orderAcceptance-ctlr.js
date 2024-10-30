@@ -15,13 +15,13 @@ const sendNotificationToAdmin = async (order) => {
       // Retrieve admin's email (replace with your admin's email)
       const adminEmail = 'pavanat24official@gmail.com';
 
-      const product = await Product.findById(order.product_id)
+      const product = await Product.findById(order.productId)
 
       const mailOptions = {
          from: process.env.NODE_MAILER_MAIL,
          to: adminEmail,
          subject: 'Notification: Product Delivery',
-         html: `<p>The delivery for product "${product.productname}" (ID: ${order.product_id}) is scheduled on ${new Date(order.delivery_date).toLocaleDateString()}.</p>`
+         html: `<p>The delivery for product "${product.productname}" (ID: ${order.productId}) is scheduled on ${new Date(order.deliveryDate).toLocaleDateString()}.</p>`
       };
       const info = await transporter.sendMail(mailOptions);
       // console.log('Email sent: ' + info.response);
@@ -37,25 +37,25 @@ orderAcceptanceCtlr.create = async (req, res) => {
    }
    const body = req.body
    const order = new OrderAcceptance(body)
-   const quotation = await Quotation.findById(order.quotation_id)
-   const payment = await Payment.findOne({ quotation: order.quotation_id })
-   const company = await Company.findOne({ user_id: req.user.id })
+   const quotation = await Quotation.findById(order.quotationId)
+   const payment = await Payment.findOne({ quotation: order.quotationId })
+   const company = await Company.findOne({ userId: req.user.id })
    // console.log(payment)
    order.company = company._id
-   order.transaction_id = payment.transaction_id
-   order.customer_id = payment.customer
-   order.product_id = quotation.product//populate
+   order.transactionId = payment.transactionId
+   order.customerId = payment.customer
+   order.productId = quotation.product//populate
    order.date = new Date()
-   // order.process.user_id = req.user.id
+   // order.process.userId = req.user.id
    try {
       await order.save()
       if (order.orderAcceptance) {
-         const customer = await User.findById(order.customer_id)
-         const product = await Product.findById(order.product_id)
+         const customer = await User.findById(order.customerId)
+         const product = await Product.findById(order.productId)
          const payment = await Payment.findById(order.paymentId)
-         const delivery_date = new Date(order.delivery_date)
-         // const notificationDate = new Date(delivery_date)
-         // notificationDate.setDate(delivery_date.getDate() - 3)
+         const deliveryDate = new Date(order.deliveryDate)
+         // const notificationDate = new Date(deliveryDate)
+         // notificationDate.setDate(deliveryDate.getDate() - 3)
          // const cronExpression = `0 9 ${notificationDate.getDate() - 3} ${notificationDate.getMonth() + 1} *`;
          // console.log(cronExpression)
          if (customer && customer.email) {
@@ -68,8 +68,8 @@ orderAcceptanceCtlr.create = async (req, res) => {
                      html: `<p>
                      Dear ${customer.username}<br/>
                         your order for -"${product.productname}" has been accepted. <br/>
-                        your expected deliver date - "${new Date(order.delivery_date).toLocaleDateString()}" <br/>
-                        payment received - <i>transaction_id</i> - ${payment.transaction_id.slice(8)}<br/><br/><br/>
+                        your expected deliver date - "${new Date(order.deliveryDate).toLocaleDateString()}" <br/>
+                        payment received - <i>transactionId</i> - ${payment.transactionId.slice(8)}<br/><br/><br/>
                         thanks and regards:-<br/>
                         TXC and co.
                      </p > `
@@ -84,8 +84,8 @@ orderAcceptanceCtlr.create = async (req, res) => {
          //    timezone: 'Asia/Kolkata'
          // })
       }
-      await User.findOneAndUpdate({ _id: order.customer_id }, { $push: { my_orders: order._id } })
-      await Company.findOneAndUpdate({ user_id: req.user.id }, { $push: { orders: order._id } })
+      await User.findOneAndUpdate({ _id: order.customerId }, { $push: { myOrders: order._id } })
+      await Company.findOneAndUpdate({ userId: req.user.id }, { $push: { orders: order._id } })
       res.json(order)
    } catch (e) {
       res.status(500).json(e)
@@ -95,12 +95,12 @@ orderAcceptanceCtlr.create = async (req, res) => {
 orderAcceptanceCtlr.list = async (req, res) => {
    try {
       const order = await OrderAcceptance.find().populate({
-         path: 'product_id'
+         path: 'productId'
       })
          .populate({
-            path: 'customer_id',
+            path: 'customerId',
             populate: {
-               path: 'my_quotations'
+               path: 'myQuotations'
             }
          })
          .exec()
@@ -112,15 +112,15 @@ orderAcceptanceCtlr.list = async (req, res) => {
 
 orderAcceptanceCtlr.update = async (req, res) => {
    const orderId = req.params.id
-   const { status_of_product } = req.body;
+   const { statusofProduct } = req.body;
    try {
-      const updatedOrder = await OrderAcceptance.findByIdAndUpdate(orderId, { status_of_product }, { new: true }).populate({
-         path: 'product_id'
+      const updatedOrder = await OrderAcceptance.findByIdAndUpdate(orderId, { statusofProduct }, { new: true }).populate({
+         path: 'productId'
       })
          .populate({
-            path: 'customer_id',
+            path: 'customerId',
             populate: {
-               path: 'my_quotations'
+               path: 'myQuotations'
             }
          })
          .exec()
@@ -142,7 +142,7 @@ orderAcceptanceCtlr.update = async (req, res) => {
 
 //       // Fetch orders scheduled for delivery today
 //       const ordersForToday = await OrderAcceptance.find({
-//          delivery_date: {
+//          deliveryDate: {
 //             $gte: today,
 //             $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000) // Within the current day
 //          }
@@ -151,10 +151,10 @@ orderAcceptanceCtlr.update = async (req, res) => {
 //       // Process and send notifications for orders due today
 //       ordersForToday.forEach(async (order) => {
 //          await sendNotificationToAdmin(order); // Notify admin about the delivery
-//          const customer = await User.findById(order.customer_id);
+//          const customer = await User.findById(order.customerId);
 
 //          if (customer && customer.email) {
-//             const product = await Product.findById(order.product_id);
+//             const product = await Product.findById(order.productId);
 
 //             const mailOptions = {
 //                from: process.env.NODE_MAILER_MAIL,

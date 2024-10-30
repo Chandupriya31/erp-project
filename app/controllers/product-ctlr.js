@@ -21,19 +21,19 @@ productCltr.create = async (req, res) => {
          //console.log(upload)
       }
       body.image = images
-      const company = await Company.findOne({ user_id: req.user.id })
-      body.company_id = company._id
+      const company = await Company.findOne({ userId: req.user.id })
+      body.companyId = company._id
       const product = new Product(body)
       await product.save()
-      const totalBestsellers = await Product.countDocuments({ best_seller: true })
+      const totalBestsellers = await Product.countDocuments({ bestSeller: true })
       if (totalBestsellers > 3) {
-         product.best_seller = false
+         product.bestSeller = false
       }
       if (!company) {
-         return res.status(404).json({ error: "Company not found for the given user_id" });
+         return res.status(404).json({ error: "Company not found for the given userId" });
       }
 
-      await Company.findOneAndUpdate({ _id: product.company_id }, { $push: { products: product._id } })
+      await Company.findOneAndUpdate({ _id: product.companyId }, { $push: { products: product._id } })
       res.json(product)
    } catch (error) {
       console.error("Error creating product:", error)
@@ -69,7 +69,7 @@ productCltr.category = async (req, res) => {
 productCltr.find = async (req, res) => {
    const id = req.params.id
    try {
-      const product = await Product.findById(id).populate('company_id', ['companyname'])
+      const product = await Product.findById(id).populate('companyId', ['companyname'])
       res.json(product)
    } catch (e) {
       res.status(500).json(e)
@@ -77,18 +77,18 @@ productCltr.find = async (req, res) => {
 }
 
 productCltr.delete = async (req, res) => {
-   const product_id = req.params.id;
+   const productId = req.params.id;
    try {
-      const productExist = await Product.findById(product_id);
+      const productExist = await Product.findById(productId);
       if (!productExist) {
          return res.status(404).json({ error: 'Product not found' });
       }
-      const company = await Company.findOne({ products: product_id });
+      const company = await Company.findOne({ products: productId });
       if (company) {
-         company.products = company.products.filter(id => id.toString() !== product_id);
+         company.products = company.products.filter(id => id.toString() !== productId);
          await company.save();
       }
-      await Product.findByIdAndDelete(product_id);
+      await Product.findByIdAndDelete(productId);
       res.status(200).json({ message: 'Product deleted successfully' });
    } catch (error) {
       console.error(error);
@@ -104,11 +104,11 @@ productCltr.delete = async (req, res) => {
 //       return res.status(400).json({ errors: errors.array() })
 //    }
 
-//    const product_id = req.params.id
+//    const productId = req.params.id
 //    const body = req.body
 
 //    try {
-//       const existingProduct = await Product.findById(product_id)
+//       const existingProduct = await Product.findById(productId)
 //       if (!existingProduct) {
 //          return res.status(404).json({ error: 'Product not found' })
 //       }

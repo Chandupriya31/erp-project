@@ -13,12 +13,12 @@ enquiryCtlr.create = async (req, res) => {
     }
     const body = req.body
     const enquiry = new Enquiry(body)
-    enquiry.customer_id = req.user.id
+    enquiry.customerId = req.user.id
     enquiry.date = new Date()
     try {
         await enquiry.save()
-        await Company.findOneAndUpdate({ products: enquiry.product_id }, { $push: { enquiries: enquiry._id } })
-        await User.findOneAndUpdate({ _id: enquiry.customer_id }, { $push: { my_enquiries: enquiry._id } })
+        await Company.findOneAndUpdate({ products: enquiry.productId }, { $push: { enquiries: enquiry._id } })
+        await User.findOneAndUpdate({ _id: enquiry.customerId }, { $push: { myenquiries: enquiry._id } })
         res.json(enquiry)
     } catch (e) {
         return res.status(500).json(e)
@@ -28,12 +28,12 @@ enquiryCtlr.create = async (req, res) => {
 enquiryCtlr.list = async (req, res) => {
     try {
         if (req.user.role === 'companyAdmin') {
-            const company = await Company.findOne({ user_id: req.user.id })
-            const enquiries = await Enquiry.find({ company: company._id }).populate('company').populate('customer_id').populate('product_id')
+            const company = await Company.findOne({ userId: req.user.id })
+            const enquiries = await Enquiry.find({ company: company._id }).populate('company').populate('customerId').populate('productId')
             // console.log('enquiries',enquiries)
             res.json(enquiries)
         } else {
-            const enquiries = await Enquiry.find({ customer_id: req.user.id })
+            const enquiries = await Enquiry.find({ customerId: req.user.id })
             // console.log('enquiry',enquiries)
             res.json(enquiries)
         }

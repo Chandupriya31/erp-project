@@ -25,7 +25,7 @@ paymentCtlr.create = async (req, res) => {
                     product_data: {
                         name: "Buying product",
                     },
-                    unit_amount: quote.total_cost * 100,
+                    unit_amount: quote.totalCost * 100,
                 },
                 quantity: 1
             }],
@@ -35,7 +35,7 @@ paymentCtlr.create = async (req, res) => {
         })
         const payment = new Payment(body)
         payment.customer = req.user.id
-        payment.transaction_id = session.id
+        payment.transactionId = session.id
         await payment.save()
         res.json({ id: session.id, url: session.url })
     } catch (e) {
@@ -57,7 +57,7 @@ paymentCtlr.update = async (req, res) => {
 paymentCtlr.delete = async (req, res) => {
     const id = req.params.id
     try {
-        const payment = await Payment.findOneAndDelete({ transaction_id: id })
+        const payment = await Payment.findOneAndDelete({ transactionId: id })
         res.json(payment)
     } catch (e) {
         res.status(500).json(e)

@@ -18,27 +18,30 @@ const userSchema = new Schema({
         }
     },
 
-    my_enquiries: {
+    myenquiries: {
         type: [{
             type: Schema.Types.ObjectId,
+            ref: 'Enquiry'
         }],
         default: function () {
             return this.role === 'customer' ? [] : undefined
         }
     },
 
-    my_quotations: {
+    myQuotations: {
         type: [{
             type: Schema.Types.ObjectId,
+            ref: 'Quotation'
         }],
         default: function () {
             return this.role === 'customer' ? [] : undefined
         }
     },
 
-    my_orders: {
+    myOrders: {
         type: [{
             type: Schema.Types.ObjectId,
+            ref: 'OrderAcceptance'
         }],
         default: function () {
             return this.role === 'customer' ? [] : undefined

@@ -12,16 +12,16 @@ quotationCtlr.create = async (req, res) => {
         return res.status(500).json({ errors: errors.array() })
     }
     const body = req.body
-    const user = await User.findOne({ my_enquiries: body.enquiry })
+    const user = await User.findOne({ myenquiries: body.enquiry })
     body.customer = user._id
     const quotation = new Quotation(body)
     quotation.date = new Date()
-    const company_id = await Company.findOne({ user_id: req.user.id })
-    quotation.company = company_id._id
+    const companyId = await Company.findOne({ userId: req.user.id })
+    quotation.company = companyId._id
     try {
         await quotation.save()
-        await User.findOneAndUpdate({ my_enquiries: quotation.enquiry }, { $push: { my_quotations: quotation._id } })
-        await Company.findOneAndUpdate({ user_id: req.user.id }, { $push: { quotations: quotation._id } })
+        await User.findOneAndUpdate({ myenquiries: quotation.enquiry }, { $push: { myQuotations: quotation._id } })
+        await Company.findOneAndUpdate({ userId: req.user.id }, { $push: { quotations: quotation._id } })
         const id = quotation._id
         const verificationLink = `http://localhost:7777/api/quotation/approve/${id}`
         const mailOptions = {
@@ -45,7 +45,7 @@ quotationCtlr.create = async (req, res) => {
 
 quotationCtlr.list = async (req, res) => {
     try {
-        const company = await Company.findOne({ user_id: req.user.id })
+        const company = await Company.findOne({ userId: req.user.id })
         const quotes = await Quotation.find({ company: company._id }).populate('customer').populate('product')
         res.json(quotes)
     } catch (e) {
@@ -56,7 +56,7 @@ quotationCtlr.list = async (req, res) => {
 quotationCtlr.listMyQuotations = async (req, res) => {
     try {
         if (req.user.role === 'companyAdmin') {
-            const company = await Company.findOne({ user_id: req.user.id })
+            const company = await Company.findOne({ userId: req.user.id })
             const quotes = await Quotation.find({ company: company._id }).populate('customer').populate('product').populate('enquiry').populate('company').populate('comments')
             res.json(quotes)
         } else {
@@ -109,11 +109,11 @@ quotationCtlr.updateQuote = async (req, res) => {
 }
 
 quotationCtlr.search = async (req, res) => {
-    const company_id = req.user.id
+    const companyId = req.user.id
     const productName = req.query.productName
 
     try {
-        const company = await Company.findOne({ user_id: company_id })
+        const company = await Company.findOne({ userId: companyId })
         const searched = await Quotation.find({ company: company._id })
             .populate('product').populate('enquiry').populate('customer')
 
@@ -131,7 +131,7 @@ quotationCtlr.search = async (req, res) => {
 quotationCtlr.sortData = async (req, res) => {
     const { sortOrder } = req.body;
     try {
-        const findCompany = await Company.findOne({ user_id: req.user.id })
+        const findCompany = await Company.findOne({ userId: req.user.id })
         let sortValue = 0
         if (sortOrder === 'asc') {
             sortValue = 1

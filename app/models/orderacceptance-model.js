@@ -2,14 +2,14 @@ const { model, Schema } = require('mongoose')
 
 const orderSchema = new Schema({
    date: Date,
-   quotation_id: {
+   quotationId: {
       type: Schema.Types.ObjectId,
    },
-   product_id: {
+   productId: {
       type: Schema.Types.ObjectId,
    },
-   transaction_id: String,
-   customer_id: {
+   transactionId: String,
+   customerId: {
       type: Schema.Types.ObjectId,
    },
    delivery: {
@@ -19,9 +19,10 @@ const orderSchema = new Schema({
    },
    company: {
       type: Schema.Types.ObjectId,
+      ref: 'Company'
    },
-   delivery_date: Date,
-   status_of_product: String,
+   deliveryDate: Date,
+   statusofProduct: String,
 })
 const OrderAcceptance = model('OrderAcceptance', orderSchema)
 

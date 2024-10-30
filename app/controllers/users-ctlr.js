@@ -93,9 +93,9 @@ userCtlr.companyRegister = async (req, res) => {
         await user.save()
         const company = new Company(body1)
         if (user.role == 'superAdmin') {
-            company.is_approval = true
+            company.isApproval = true
         }
-        company.user_id = user._id
+        company.userId = user._id
         const response = await axios.get(`https://api.geoapify.com/v1/geocode/search?text=${body1.contactdetails.address.name}&format=json&apiKey=ded62e99b09540618a5035ea72fa33ec`)
         company.contactdetails.address.lattitude = response.data.results[0].lat
         company.contactdetails.address.longitude = response.data.results[0].lon
@@ -144,45 +144,45 @@ userCtlr.getProfile = async (req, res) => {
     try {
         if (req.user.role == 'companyAdmin') {
             const user = await User.findById(req.user.id)
-            const company = await Company.findOne({ user_id: req.user.id }).populate({
+            const company = await Company.findOne({ userId: req.user.id }).populate({
                 path: 'enquiries',
                 populate: [
-                    { path: 'customer_id', select: 'username email' },
-                    { path: 'product_id', select: ['productname', 'per_unit_cost'] },
+                    { path: 'customerId', select: 'username email' },
+                    { path: 'productId', select: ['productname', 'perUnitCost'] },
                 ],
             }).populate({
                 path: 'orders',
                 populate: [
-                    { path: 'customer_id', select: 'username' },
-                    { path: 'quotation_id' }
+                    { path: 'customerId', select: 'username' },
+                    { path: 'quotationId' }
                 ],
             }).exec()
             res.json({ user, company })
         } else {
             const customer = await User.findOne({ _id: req.user.id })
                 .populate({
-                    path: 'my_quotations',
+                    path: 'myQuotations',
                     populate: {
                         path: 'enquiry',
                         populate: [
                             { path: 'company' },
-                            { path: 'product_id' }
+                            { path: 'productId' }
                         ]
                     }
                 })
                 .populate({
-                    path: 'my_enquiries',
+                    path: 'myenquiries',
                     populate: [
                         { path: 'company' },
-                        { path: 'product_id' }
+                        { path: 'productId' }
                     ]
                 })
                 .populate({
-                    path: 'my_orders',
+                    path: 'myOrders',
                     populate: [
                         { path: 'company' },
-                        { path: 'quotation_id' },
-                        { path: 'product_id' }
+                        { path: 'quotationId' },
+                        { path: 'productId' }
                     ]
                 })
             res.json(customer)
@@ -203,7 +203,7 @@ userCtlr.list = async (req, res) => {
 
 userCtlr.listCompanies = async (req, res) => {
     try {
-        const companies = await Company.find().populate('user_id', ['username', 'email']).populate('products')
+        const companies = await Company.find().populate('userId', ['username', 'email']).populate('products')
         res.json(companies)
     } catch (e) {
         res.status(500).json(e)
@@ -233,7 +233,7 @@ userCtlr.getCompanyDetails = async (req, res) => {
 userCtlr.updateCompany = async (req, res) => {
     const body = req.body
     try {
-        const company = await Company.findOneAndUpdate({ user_id: req.user.id }, body, { new: true })
+        const company = await Company.findOneAndUpdate({ userId: req.user.id }, body, { new: true })
         res.json(company)
     } catch (e) {
         res.status(500).json(e)

@@ -11,16 +11,6 @@ configDB()
 const { checkSchema } = require('express-validator')
 
 
-// cron.schedule('0 * * * * *', async() => {
-//     try{
-//         const response = await axios.get('http://127.0.0.1:4320/api/notify')
-//     }catch(e){
-//         console.log("error",e)
-//     }
-//     //const date = new Date()
-//     console.log('cron', date)
-// })
-
 
 //helpers
 const { userRegisterSchema, companyRegisterSchema, loginValidationSchema } = require('./app/helpers/userValidationSchema')
@@ -80,7 +70,7 @@ app.get('/api/quotation/approve/:id', quotationCtlr.verify)
 app.put('/api/quotation/isapproved/:id', quotationCtlr.update)
 app.put('/api/quotation/:id', authenticateUser, authorizeUser(['companyAdmin']), quotationCtlr.updateQuote)
 // Add this route in your express application
-    app.get('/api/quotation/search', authenticateUser ,quotationCtlr.search)
+app.get('/api/quotation/search', authenticateUser, quotationCtlr.search)
 
 //order-acceptance
 app.post('/api/orders/create', authenticateUser, authorizeUser(['companyAdmin']), checkSchema(orderValidation), orderAcceptanceCtlr.create)

@@ -15,7 +15,7 @@ const productValidation = {
          errorMessage: 'description should not be empty'
       }
    },
-   per_unit_cost: {
+   perUnitCost: {
       isNumeric: {
          errorMessage: 'enter number'
       },
@@ -38,12 +38,12 @@ const productValidation = {
          }
       }
    },
-   product_warranty: {
+   productWarranty: {
       notEmpty: {
          errorMessage: 'product warrenty required'
       }
    },
-   payment_terms: {
+   paymentTerms: {
       notEmpty: {
          errorMessage: 'mention payment terms'
       }

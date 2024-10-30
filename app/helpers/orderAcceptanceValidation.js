@@ -1,5 +1,5 @@
 const orderValidation = {
-   quotation_id: {
+   quotationId: {
       notEmpty: {
          errorMessage: 'quotation should be required'
       },
@@ -7,7 +7,7 @@ const orderValidation = {
          errorMessage: 'Quotation Id should be valid'
       }
    },
-   delivery_date: {
+   deliveryDate: {
       isDate: {
          errorMessage: 'Date should be in valid format',
          format: 'YYYY-MM-DD'
@@ -25,7 +25,7 @@ const orderValidation = {
       }
    },
 
-   status_of_product: {
+   statusofProduct: {
       notEmpty: {
          errorMessage: 'process status required'
       }
@@ -35,7 +35,7 @@ const orderValidation = {
    //       errorMessage: 'description required'
    //    }
    // }
-   // 'process.user_id': {
+   // 'process.userId': {
    //    isMongoId: {
    //       errorMessage: 'enter valid id'
    //    }
