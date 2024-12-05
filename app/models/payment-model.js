@@ -4,8 +4,8 @@ const { Schema, model } = mongoose
 const paymentSchema = new Schema({
     type: {
         type: String,
-        enum: ['Credit', 'Debit'],
-        default: 'Debit'
+        enum: ['credit', 'debit'],
+        default: 'debit'
     },
     transactionId: String,
     amount: Number,

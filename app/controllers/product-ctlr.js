@@ -59,7 +59,7 @@ productCltr.list = async (req, res) => {
 productCltr.category = async (req, res) => {
    const id = req.params.id
    try {
-      const products = await Product.find({ category_id: id }).populate('category_id')
+      const products = await Product.find({ categoryId: id }).populate('categoryId')
       res.json(products)
    } catch (e) {
       res.status(500).json(e.message)

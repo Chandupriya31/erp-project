@@ -23,7 +23,7 @@ const productValidation = {
          errorMessage: 'enter cost of product'
       }
    },
-   category_id: {
+   categoryId: {
       isMongoId: {
          errorMessage: 'should be a valid mongodb id'
       }
