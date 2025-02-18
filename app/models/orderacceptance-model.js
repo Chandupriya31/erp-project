@@ -4,13 +4,16 @@ const orderSchema = new Schema({
    date: Date,
    quotationId: {
       type: Schema.Types.ObjectId,
+      ref: 'Quotation'
    },
    productId: {
       type: Schema.Types.ObjectId,
+      ref: 'Product'
    },
    transactionId: String,
    customerId: {
       type: Schema.Types.ObjectId,
+      ref: 'User'
    },
    delivery: {
       type: String,

@@ -4,6 +4,7 @@ const { Schema, model } = mongoose
 const quotationSchema = new Schema({
    enquiry: {
       type: Schema.Types.ObjectId,
+      ref: 'Enquiry'
    },
    customer: {
       type: Schema.Types.ObjectId,
@@ -11,7 +12,7 @@ const quotationSchema = new Schema({
    },
    company: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'Company'
    },
    quantity: Number,
    unitPrice: Number,

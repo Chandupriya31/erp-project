@@ -4,6 +4,7 @@ const categorySchema = new Schema({
    name: String,
    companyId: {
       type: Schema.Types.ObjectId,
+      ref: 'Company'
    }
 })
 

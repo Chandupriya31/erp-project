@@ -10,6 +10,7 @@ categoryCltr.create = async (req, res) => {
       return res.status(400).json({ errors: errors.array() })
    }
    const body = req.body
+   console.log(req.user.id)
    const data = await Company.findOne({ userId: req.user.id })
    body.companyId = data._id
    const category = new Category(body)

@@ -4,6 +4,7 @@ const { Schema, model } = mongoose
 const enquirySchema = new Schema({
     productId: {
         type: Schema.Types.ObjectId,
+        ref: 'Product'
     },
     phNo: Number,
     customerId: {
